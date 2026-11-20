@@ -56,7 +56,9 @@ TOKEN = re.compile(
 )
 LINK = re.compile(r"(?P<img>!?)\[(?P<label>[^\[\]\n]+)\]\((?P<url>[^()\n\s]+)\)")
 STATIC_FOLDERS = {"assets", "code", "upstream", "model-metadata"}
+BODY_VECTOR = "assets/impl-05-body.svg"
 SVG_OVERLAY = {
+    BODY_VECTOR,
     "assets/15_block_dimensions.svg",
     "assets/16_stem_backbone.svg",
     "assets/17_d_fusion.svg",
@@ -250,6 +252,19 @@ def stage(zip_path, output, layout_path, bundled=False, baseurl=""):
             must("{%" not in content and "{{" not in content,
                  f"{source}: unreviewed Liquid syntax")
             raw, eqs, fences = protect_math(content, old_html, key)
+            if key == "architecture":
+                next_image = "![D由三路特征融合得到]"
+                must(raw.count(next_image) == 1, "Cannot locate Body insertion point")
+                body_section = (
+                    '<a id="body-structure"></a>\n\n'
+                    '### Body 结构：16 个块与块内两次残差\n\n'
+                    '![Mirage Body：串联的 16 个块、空间门控和通道混合](../assets/impl-05-body.png)\n\n'
+                    'F5 依次进入 16 个结构相同、参数各自独立的 Body 块，全程保持 **16×16×512**。'
+                    '最后一块输出交给 Attention，它还不是粗特征 E。每个块先做邻近位置的深度卷积门控，'
+                    '再做逐位置的 HConvGLU 通道混合及跨空间统计的 GRN；两段各有自己的残差相加。'
+                    '公式见[实现章第 5 节](02-implementation.md#section-5)。\n\n'
+                )
+                raw = raw.replace(next_image, body_section + next_image, 1)
             converted = update_markdown_links(raw, source, public, found)
             converted = add_downloads(converted, key, bundled, public, found)
             current_fences = [m.group(0) for m in TOKEN.finditer(converted) if m.group("fence")]
@@ -277,7 +292,10 @@ def stage(zip_path, output, layout_path, bundled=False, baseurl=""):
                 (stage_root / "downloads").mkdir()
                 shutil.copyfile(zip_path, stage_root / name)
                 continue
-            raw = archive.read(("source/" if name in SVG_OVERLAY else "docs/") + clean_path(name))
+            if name == BODY_VECTOR:
+                raw = Path(__file__).with_name("body_block.svg").read_bytes()
+            else:
+                raw = archive.read(("source/" if name in SVG_OVERLAY else "docs/") + clean_path(name))
             if name in SVG_OVERLAY:
                 must(b"<svg" in raw, f"Invalid SVG {name}")
             if name.endswith(".png"):
@@ -346,7 +364,11 @@ def check_built(output, baseurl):
         page = BuiltPage(text)
         must(page.headings == 1 and len(page.ids) == len(set(page.ids)), f"{path}: heading/ID issue")
         pages[url] = page
+    architecture = pages["chapters/01-architecture.html"]
+    must("body-structure" in architecture.ids and any(link.endswith("/impl-05-body.svg") for link in architecture.images),
+         "Missing Body architecture anchor or figure")
     implementation = pages["chapters/02-implementation.html"]
+    must(any(link.endswith("/impl-05-body.svg") for link in implementation.images), "Missing Body in implementation")
     must(implementation.math == 218 and implementation.code >= 4, "Lost MathML or code fences")
     must(all(f"section-{i}" in implementation.ids for i in range(1,22)), "Missing implementation anchors")
     images = set()
@@ -363,7 +385,7 @@ def check_built(output, baseurl):
                 images.add(target)
             if u.fragment and target in pages:
                 must(unquote(u.fragment) in pages[target].ids, f"{url}: broken anchor {link}")
-    must(SVG_OVERLAY <= images and len(images) == 71, "Missing figures or 4 SVG overlays")
+    must(SVG_OVERLAY <= images and len(images) == 71, "Missing figures or SVG overlays")
     print(f"Built Jekyll site check passed: {len(pages)} pages, {len(images)} figures, prefix {baseurl or '/'}")
 
 
