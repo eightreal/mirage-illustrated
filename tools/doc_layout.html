@@ -60,6 +60,15 @@ table{display:block;max-width:100%;overflow:auto;border-collapse:collapse;margin
 math[display="block"]{display:block;margin:1em 0;max-width:100%;overflow-x:auto}
 .foot{border-top:1px solid var(--edge);margin:0;padding:14px clamp(18px,5vw,54px);font-size:.82rem;color:var(--dim)}
 @media(max-width:910px){:root{--sticky:112px}.bar-inner{min-height:0;padding:10px 15px 6px;gap:5px;display:block}.logo{margin:0 0 5px}.logo svg{width:28px;height:28px}.nav{padding-bottom:4px}.site{grid-template-columns:1fr;padding:14px;gap:12px}.aside{position:static;max-height:none}.lead{padding:15px 19px}.content{padding:20px 19px}}
+@media(max-width:520px){:root{--sticky:133px}.nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));overflow:visible;gap:3px}.nav a{text-align:center;padding:5px 2px;font-size:.83rem;white-space:nowrap}.bar-inner{padding-top:7px}}
+.content a.figure-open:has(img[src$="overview-evidence.svg"]){max-width:min(100%,610px)}
+.content a.figure-open:has(img[src$="overview-encoder.svg"]){max-width:min(100%,680px)}
+.scroll-region{max-width:100%;overflow-x:auto;overscroll-behavior-inline:contain;margin:1rem 0}
+.content .scroll-region table{display:table;overflow:visible;width:100%;margin:0}
+.scroll-region .dense-table{min-width:32rem}
+.content .scroll-region math[display="block"]{max-width:none;width:max-content;margin:.5rem 0;overflow:visible}
+.content pre{overscroll-behavior-inline:contain}
+.scroll-region:focus-visible,.content pre:focus-visible{outline:2px solid #4a7ccb;outline-offset:2px}
 @media(max-width:430px){.site{padding:9px}.sheet,.lead{border-radius:12px}.content{padding-inline:13px}.foot{padding-inline:13px}.nav a{padding:7px 8px}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
 </style>
@@ -126,17 +135,27 @@ math[display="block"]{display:block;margin:1em 0;max-width:100%;overflow-x:auto}
     a.classList.add('figure-open');
     a.title='打开原始图片';
     const updateHint=()=>{
-      if(img.naturalWidth>0&&img.naturalHeight>img.naturalWidth*1.15&&!a.querySelector('.figure-hint')){
-        img.classList.add('figure-tall');
+      const body=img.getAttribute('src').endsWith('/impl-05-body-preview.svg');
+      const tall=img.naturalWidth>0&&img.naturalHeight>img.naturalWidth*1.15;
+      if((body||tall)&&!a.querySelector('.figure-hint')){
+        if(tall)img.classList.add('figure-tall');
         const note=document.createElement('span');
-        note.className='figure-hint';note.textContent='点图查看原尺寸';
+        note.className='figure-hint';note.textContent=body?'展开完整 Body 图 · 两次残差与 HConvGLU':'点图查看原尺寸';
         note.setAttribute('aria-hidden','true');a.append(note);
       }
     };
     img.addEventListener('load',updateHint,{once:true});updateHint();
   });
-  const active=document.querySelector('.nav [aria-current="page"]');
-  if(active&&mobile.matches) active.scrollIntoView({block:'nearest',inline:'center'});
+  document.querySelectorAll('.content table, .content math[display="block"]').forEach(el=>{
+    const table=el.tagName.toLowerCase()==='table';
+    if(table&&el.querySelectorAll('thead th').length>=3)el.classList.add('dense-table');
+    const box=document.createElement(table?'div':'span');
+    box.className='scroll-region';box.style.display='block';
+    box.setAttribute('role','region');box.setAttribute('aria-label',table?'表格，可横向滚动':'公式，可横向滚动');
+    el.before(box);box.append(el);
+    if(box.scrollWidth>box.clientWidth+1)box.tabIndex=0;
+  });
+  document.querySelectorAll('.content pre').forEach(el=>{if(el.scrollWidth>el.clientWidth+1)el.tabIndex=0;});
 })();
 </script>
 </body>
