@@ -27,6 +27,7 @@ a:focus-visible,summary:focus-visible{outline:3px solid #4a7ccb;outline-offset:3
 .aside summary{font-size:.86rem;font-weight:760;cursor:pointer}
 .aside ol{list-style:none;padding:0;margin:8px 0 2px}
 .aside a{display:block;padding:3px 0;font-size:.81rem;color:var(--dim);text-decoration:none;line-height:1.52}
+.aside li.sub{padding-inline-start:.7em;border-inline-start:1px solid var(--edge)}
 .aside a:hover,.aside a[aria-current=location]{color:var(--blue);text-decoration:underline}
 .sheet{min-width:0;max-width:1090px;border:1px solid var(--edge);border-radius:18px;background:var(--paper);box-shadow:0 5px 25px #233f6610}
 .lead{border-bottom:1px solid var(--edge);padding:26px clamp(18px,5vw,54px) 22px;background:linear-gradient(115deg,#f3f8ff,#fff 80%);border-radius:18px 18px 0 0}
@@ -85,10 +86,21 @@ math[display="block"]{display:block;margin:1em 0;max-width:100%;overflow-x:auto}
   const mobile=matchMedia('(max-width:910px)');
   if(mobile.matches) outline.open=false;
   const links=[];
-  document.querySelectorAll('.content h2').forEach((h,i)=>{
-    if(!h.id) h.id='outline-'+(i+1);
+  const arch=location.pathname.endsWith('/chapters/01-architecture.html');
+  const named={
+    '16_stem_backbone.svg':['stem-to-e','Stem / Body / Attention 如何得到 E'],
+    '17_d_fusion.svg':['d-fusion','D 的来源：两级融合'],
+    '18_mask_fusion.svg':['mask-fusion','掩码如何融合 D 与 S4']
+  };
+  const selector=arch?'.content h2, .content h3, .content img[src$=".svg"]':'.content h2';
+  document.querySelectorAll(selector).forEach((node,i)=>{
+    const figure=node.tagName==='IMG'?named[node.getAttribute('src').split('/').pop()]:null;
+    if(node.tagName==='IMG'&&!figure)return;
+    const h=figure?(node.closest('p')||node):node;
+    if(!h.id) h.id=figure?figure[0]:'outline-'+(i+1);
     const a=document.createElement('a'), li=document.createElement('li');
-    a.href='#'+encodeURIComponent(h.id); a.textContent=h.textContent;
+    if(node.tagName!=='H2')li.className='sub';
+    a.href='#'+encodeURIComponent(h.id); a.textContent=figure?figure[1]:h.textContent;
     a.addEventListener('click',()=>{if(mobile.matches) outline.open=false;});
     links.push([h,a]); li.append(a); list.append(li);
   });
