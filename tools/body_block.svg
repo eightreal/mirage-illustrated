@@ -1,0 +1,245 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="2390" viewBox="0 0 720 2390" role="img"><title>Body：16 块与单块内部</title><desc>16²×512 是空间视图，也可记作 256×512 的图像序列。</desc><defs><marker id="a" markerWidth="6" markerHeight="6" viewBox="0 0 10 10" refX="9" refY="5" orient="auto"><path d="M0,0 10,5 0,10z" fill="#59738b"/></marker></defs>
+<rect x="0" y="0" width="720" height="2390" fill="#f3f6fc" stroke="none" stroke-width="1.8" rx="0"/>
+<text x="30" y="40" text-anchor="start" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="16" fill="#145db2">MIRAGE   /   ENGINEERING ATLAS   /   05</text>
+<text x="29" y="88" text-anchor="start" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="36" fill="#14283e">Body：16 块与单块内部</text>
+<text x="31" y="122" text-anchor="start" font-family="Noto Sans CJK SC, sans-serif" font-weight="400" font-size="19" fill="#48617b">16²×512 是空间视图，也可记作 256×512 的图像序列。</text>
+<rect x="29" y="144" width="662" height="483" fill="#ffffff" stroke="#ced9e8" stroke-width="1.8" rx="18"/>
+<rect x="46" y="162" width="44" height="33" fill="#14283e" stroke="none" stroke-width="1.8" rx="9"/>
+<text x="68" y="185" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="16" fill="#ffffff">A</text>
+<text x="105" y="186" text-anchor="start" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="22" fill="#14283e">16 个 Body 串联，输出不是 E</text>
+<rect x="52" y="206" width="233" height="64" fill="#ffffff" stroke="#007960" stroke-width="1.8" rx="9"/>
+<rect x="63" y="218" width="4" height="4" fill="#007960" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="69" y="218" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="75" y="218" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="63" y="224" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="69" y="224" width="4" height="4" fill="#007960" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="75" y="224" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="63" y="230" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="69" y="230" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="75" y="230" width="4" height="4" fill="#007960" stroke="none" stroke-width="1.8" rx="0"/>
+<text x="176.5" y="233" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="21" fill="#007960">Stem F5</text>
+<text x="168.5" y="260" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="400" font-size="19" fill="#14283e">16² × 512</text>
+<rect x="337" y="205" width="300" height="65" fill="#e8f1fe" stroke="#145db2" stroke-width="1.8" rx="11"/>
+<text x="487.0" y="235" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="22" fill="#145db2">SiLU → X⁽⁰⁾</text>
+<text x="487.0" y="263" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="400" font-size="18" fill="#14283e">16² × 512</text>
+<polyline points="288,239 330,239" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<polyline points="488,273 488,292 78,292 78,305" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<rect x="35" y="307" width="86" height="32" fill="#e8f1fe" stroke="#145db2" stroke-width="1.8" rx="7"/>
+<text x="78" y="329" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="17" fill="#145db2">Body 0</text>
+<rect x="204" y="307" width="86" height="32" fill="#e8f1fe" stroke="#145db2" stroke-width="1.8" rx="7"/>
+<text x="247" y="329" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="17" fill="#145db2">Body 1</text>
+<polyline points="124,323 199,323" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<rect x="373" y="307" width="86" height="32" fill="#e8f1fe" stroke="#145db2" stroke-width="1.8" rx="7"/>
+<text x="416" y="329" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="17" fill="#145db2">Body 2</text>
+<polyline points="293,323 368,323" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<rect x="542" y="307" width="86" height="32" fill="#e8f1fe" stroke="#145db2" stroke-width="1.8" rx="7"/>
+<text x="585" y="329" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="17" fill="#145db2">Body 3</text>
+<polyline points="462,323 537,323" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<rect x="542" y="364" width="86" height="32" fill="#e8f1fe" stroke="#145db2" stroke-width="1.8" rx="7"/>
+<text x="585" y="386" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="17" fill="#145db2">Body 4</text>
+<polyline points="585,341 585,361" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<rect x="373" y="364" width="86" height="32" fill="#e8f1fe" stroke="#145db2" stroke-width="1.8" rx="7"/>
+<text x="416" y="386" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="17" fill="#145db2">Body 5</text>
+<polyline points="539,380 464,380" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<rect x="204" y="364" width="86" height="32" fill="#e8f1fe" stroke="#145db2" stroke-width="1.8" rx="7"/>
+<text x="247" y="386" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="17" fill="#145db2">Body 6</text>
+<polyline points="370,380 295,380" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<rect x="35" y="364" width="86" height="32" fill="#e8f1fe" stroke="#145db2" stroke-width="1.8" rx="7"/>
+<text x="78" y="386" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="17" fill="#145db2">Body 7</text>
+<polyline points="201,380 126,380" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<rect x="35" y="421" width="86" height="32" fill="#e8f1fe" stroke="#145db2" stroke-width="1.8" rx="7"/>
+<text x="78" y="443" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="17" fill="#145db2">Body 8</text>
+<polyline points="78,398 78,418" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<rect x="204" y="421" width="86" height="32" fill="#e8f1fe" stroke="#145db2" stroke-width="1.8" rx="7"/>
+<text x="247" y="443" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="17" fill="#145db2">Body 9</text>
+<polyline points="124,437 199,437" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<rect x="373" y="421" width="86" height="32" fill="#e8f1fe" stroke="#145db2" stroke-width="1.8" rx="7"/>
+<text x="416" y="443" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="17" fill="#145db2">Body 10</text>
+<polyline points="293,437 368,437" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<rect x="542" y="421" width="86" height="32" fill="#e8f1fe" stroke="#145db2" stroke-width="1.8" rx="7"/>
+<text x="585" y="443" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="17" fill="#145db2">Body 11</text>
+<polyline points="462,437 537,437" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<rect x="542" y="478" width="86" height="32" fill="#e8f1fe" stroke="#145db2" stroke-width="1.8" rx="7"/>
+<text x="585" y="500" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="17" fill="#145db2">Body 12</text>
+<polyline points="585,455 585,475" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<rect x="373" y="478" width="86" height="32" fill="#e8f1fe" stroke="#145db2" stroke-width="1.8" rx="7"/>
+<text x="416" y="500" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="17" fill="#145db2">Body 13</text>
+<polyline points="539,494 464,494" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<rect x="204" y="478" width="86" height="32" fill="#e8f1fe" stroke="#145db2" stroke-width="1.8" rx="7"/>
+<text x="247" y="500" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="17" fill="#145db2">Body 14</text>
+<polyline points="370,494 295,494" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<rect x="35" y="478" width="86" height="32" fill="#e8f1fe" stroke="#145db2" stroke-width="1.8" rx="7"/>
+<text x="78" y="500" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="17" fill="#145db2">Body 15</text>
+<polyline points="201,494 126,494" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<polyline points="78,512 78,529 186,529 186,549" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<rect x="53" y="552" width="266" height="59" fill="#ffffff" stroke="#007960" stroke-width="1.8" rx="9"/>
+<rect x="64" y="564" width="4" height="4" fill="#007960" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="70" y="564" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="76" y="564" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="64" y="570" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="70" y="570" width="4" height="4" fill="#007960" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="76" y="570" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="64" y="576" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="70" y="576" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="76" y="576" width="4" height="4" fill="#007960" stroke="none" stroke-width="1.8" rx="0"/>
+<text x="194.0" y="579" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="21" fill="#007960">X⁽¹⁶⁾ · Body 输出</text>
+<text x="186.0" y="601" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="400" font-size="19" fill="#14283e">16² × 512</text>
+<rect x="385" y="551" width="282" height="60" fill="#f0ebff" stroke="#6145ab" stroke-width="1.8" rx="11"/>
+<text x="526.0" y="581" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="22" fill="#6145ab">图像序列 + 4 个 register</text>
+<text x="526.0" y="609" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="400" font-size="18" fill="#14283e">260 × 512 → Attention</text>
+<polyline points="322,582 377,582" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<rect x="29" y="648" width="662" height="617" fill="#ffffff" stroke="#ced9e8" stroke-width="1.8" rx="18"/>
+<rect x="46" y="666" width="44" height="33" fill="#14283e" stroke="none" stroke-width="1.8" rx="9"/>
+<text x="68" y="689" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="16" fill="#ffffff">B1</text>
+<text x="105" y="690" text-anchor="start" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="22" fill="#14283e">单块 · 空间门控与第一次残差</text>
+<rect x="238" y="711" width="244" height="62" fill="#ffffff" stroke="#007960" stroke-width="1.8" rx="9"/>
+<rect x="249" y="723" width="4" height="4" fill="#007960" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="255" y="723" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="261" y="723" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="249" y="729" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="255" y="729" width="4" height="4" fill="#007960" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="261" y="729" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="249" y="735" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="255" y="735" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="261" y="735" width="4" height="4" fill="#007960" stroke="none" stroke-width="1.8" rx="0"/>
+<text x="368.0" y="738" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="21" fill="#007960">X · 本块输入</text>
+<text x="360.0" y="765" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="400" font-size="19" fill="#14283e">16² × 512</text>
+<polyline points="361,776 361,793" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<rect x="240" y="798" width="240" height="59" fill="#e8f1fe" stroke="#145db2" stroke-width="1.8" rx="11"/>
+<text x="360.0" y="828" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="22" fill="#145db2">RMSNorm</text>
+<text x="360.0" y="856" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="400" font-size="18" fill="#14283e">Z：16² × 512</text>
+<polyline points="486,742 658,742 658,1171 394,1171" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<text x="632" y="776" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="18" fill="#48617b">X</text>
+<text x="632" y="802" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="400" font-size="16" fill="#48617b">旁路</text>
+<polyline points="361,861 361,876 185,876 185,899" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<polyline points="361,876 525,876 525,899" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<rect x="62" y="904" width="246" height="63" fill="#e8f1fe" stroke="#145db2" stroke-width="1.8" rx="11"/>
+<text x="185.0" y="934" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="22" fill="#145db2">DW_v 3×3 + b_v</text>
+<text x="185.0" y="962" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="400" font-size="18" fill="#14283e">v：16² × 512</text>
+<rect x="402" y="904" width="246" height="63" fill="#f0ebff" stroke="#6145ab" stroke-width="1.8" rx="11"/>
+<text x="525.0" y="934" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="22" fill="#6145ab">DW_g 3×3 + b_g</text>
+<text x="525.0" y="962" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="400" font-size="18" fill="#14283e">g：16² × 512</text>
+<polyline points="525,971 525,988" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<rect x="441" y="993" width="168" height="45" fill="#f0ebff" stroke="#6145ab" stroke-width="1.8" rx="11"/>
+<text x="525.0" y="1023" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="22" fill="#6145ab">SiLU(g)</text>
+<polyline points="185,971 185,1056 302,1056" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<polyline points="525,1042 525,1056 418,1056" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<rect x="307" y="1034" width="106" height="45" fill="#fff2df" stroke="#a7520c" stroke-width="1.8" rx="11"/>
+<text x="360.0" y="1064" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="22" fill="#a7520c">逐元素 ×</text>
+<polyline points="360,1081 360,1097" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<rect x="210" y="1101" width="300" height="45" fill="#e8f1fe" stroke="#145db2" stroke-width="1.8" rx="11"/>
+<text x="360.0" y="1131" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="22" fill="#145db2">DW_o 3×3 → 乘 m₃₂</text>
+<polyline points="360,1147 360,1153" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<circle cx="360" cy="1171" r="17" fill="white" stroke="#a7520c" stroke-width="2"/>
+<text x="360" y="1179" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="25" fill="#a7520c">+</text>
+<polyline points="360,1190 360,1198" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<rect x="217" y="1200" width="286" height="54" fill="#ffffff" stroke="#007960" stroke-width="1.8" rx="9"/>
+<rect x="228" y="1212" width="4" height="4" fill="#007960" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="234" y="1212" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="240" y="1212" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="228" y="1218" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="234" y="1218" width="4" height="4" fill="#007960" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="240" y="1218" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="228" y="1224" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="234" y="1224" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="240" y="1224" width="4" height="4" fill="#007960" stroke="none" stroke-width="1.8" rx="0"/>
+<text x="368.0" y="1227" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="21" fill="#007960">X̃ · 空间残差输出</text>
+<text x="360.0" y="1249" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="400" font-size="19" fill="#14283e">16² × 512</text>
+<text x="408" y="1158" text-anchor="start" font-family="Noto Sans CJK SC, sans-serif" font-weight="400" font-size="17" fill="#48617b">与原 X 相加</text>
+<rect x="29" y="1285" width="662" height="465" fill="#ffffff" stroke="#ced9e8" stroke-width="1.8" rx="18"/>
+<rect x="46" y="1303" width="44" height="33" fill="#14283e" stroke="none" stroke-width="1.8" rx="9"/>
+<text x="68" y="1326" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="16" fill="#ffffff">B2</text>
+<text x="105" y="1327" text-anchor="start" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="22" fill="#14283e">单块 · 通道混合与第二次残差</text>
+<rect x="229" y="1343" width="262" height="61" fill="#ffffff" stroke="#007960" stroke-width="1.8" rx="9"/>
+<rect x="240" y="1355" width="4" height="4" fill="#007960" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="246" y="1355" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="252" y="1355" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="240" y="1361" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="246" y="1361" width="4" height="4" fill="#007960" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="252" y="1361" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="240" y="1367" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="246" y="1367" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="252" y="1367" width="4" height="4" fill="#007960" stroke="none" stroke-width="1.8" rx="0"/>
+<text x="368.0" y="1370" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="21" fill="#007960">X̃ · B1 输出</text>
+<text x="360.0" y="1392" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="400" font-size="19" fill="#14283e">16² × 512</text>
+<polyline points="360,1409 360,1425" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<polyline points="495,1374 658,1374 658,1649 394,1649" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<text x="627" y="1410" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="17" fill="#48617b">X̃ 旁路</text>
+<rect x="242" y="1429" width="236" height="43" fill="#e8f1fe" stroke="#145db2" stroke-width="1.8" rx="11"/>
+<text x="360.0" y="1459" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="22" fill="#145db2">RMSNorm</text>
+<polyline points="360,1474 360,1487" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<rect x="143" y="1491" width="434" height="62" fill="#f0ebff" stroke="#6145ab" stroke-width="1.8" rx="11"/>
+<text x="360.0" y="1521" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="22" fill="#6145ab">HConvGLU · 每格混合 512 通道</text>
+<text x="360.0" y="1549" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="400" font-size="18" fill="#14283e">H：16² × 512</text>
+<polyline points="360,1557 360,1572" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<rect x="144" y="1576" width="433" height="51" fill="#e6f7f0" stroke="#007960" stroke-width="1.8" rx="11"/>
+<text x="360.5" y="1606" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="22" fill="#007960">GRN（只统计有效位置）→ 乘 m₃₂</text>
+<polyline points="360,1628 360,1631" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<circle cx="360" cy="1649" r="17" fill="white" stroke="#a7520c" stroke-width="2"/>
+<text x="360" y="1657" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="25" fill="#a7520c">+</text>
+<text x="408" y="1636" text-anchor="start" font-family="Noto Sans CJK SC, sans-serif" font-weight="400" font-size="17" fill="#48617b">与 X̃ 相加</text>
+<polyline points="360,1668 360,1680" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<rect x="226" y="1683" width="268" height="54" fill="#ffffff" stroke="#007960" stroke-width="1.8" rx="9"/>
+<rect x="237" y="1695" width="4" height="4" fill="#007960" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="243" y="1695" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="249" y="1695" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="237" y="1701" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="243" y="1701" width="4" height="4" fill="#007960" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="249" y="1701" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="237" y="1707" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="243" y="1707" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="249" y="1707" width="4" height="4" fill="#007960" stroke="none" stroke-width="1.8" rx="0"/>
+<text x="368.0" y="1710" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="21" fill="#007960">X⁺ · 本块输出</text>
+<text x="360.0" y="1732" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="400" font-size="19" fill="#14283e">16² × 512</text>
+<rect x="29" y="1772" width="662" height="478" fill="#ffffff" stroke="#ced9e8" stroke-width="1.8" rx="18"/>
+<rect x="46" y="1790" width="44" height="33" fill="#14283e" stroke="none" stroke-width="1.8" rx="9"/>
+<text x="68" y="1813" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="16" fill="#ffffff">C</text>
+<text x="105" y="1814" text-anchor="start" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="22" fill="#14283e">放大 B2 的 HConvGLU · 一处网格位置</text>
+<rect x="236" y="1834" width="248" height="63" fill="#ffffff" stroke="#007960" stroke-width="1.8" rx="9"/>
+<rect x="247" y="1846" width="4" height="4" fill="#007960" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="253" y="1846" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="259" y="1846" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="247" y="1852" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="253" y="1852" width="4" height="4" fill="#007960" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="259" y="1852" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="247" y="1858" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="253" y="1858" width="4" height="4" fill="#e6f7f0" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="259" y="1858" width="4" height="4" fill="#007960" stroke="none" stroke-width="1.8" rx="0"/>
+<text x="368.0" y="1861" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="21" fill="#007960">该位置的向量</text>
+<text x="360.0" y="1888" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="400" font-size="19" fill="#14283e">xₚ：512 维</text>
+<polyline points="360,1899 360,1912" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<rect x="228" y="1916" width="264" height="45" fill="#e8f1fe" stroke="#145db2" stroke-width="1.8" rx="11"/>
+<text x="360.0" y="1946" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="22" fill="#145db2">固定 Walsh W → u</text>
+<polyline points="360,1963 360,1979 183,1979 183,1994" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<polyline points="360,1979 537,1979 537,1994" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<rect x="58" y="1998" width="250" height="60" fill="#f0ebff" stroke="#6145ab" stroke-width="1.8" rx="11"/>
+<text x="183.0" y="2028" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="22" fill="#6145ab">学习带 B_g + b</text>
+<text x="183.0" y="2056" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="400" font-size="18" fill="#14283e">GELU 门支：512 维</text>
+<rect x="412" y="1998" width="250" height="60" fill="#e8f1fe" stroke="#145db2" stroke-width="1.8" rx="11"/>
+<text x="537.0" y="2028" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="22" fill="#145db2">学习带 B_v</text>
+<text x="537.0" y="2056" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="400" font-size="18" fill="#14283e">值支：512 维</text>
+<polyline points="183,2061 183,2093 299,2093" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<polyline points="537,2061 537,2093 421,2093" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<rect x="305" y="2070" width="110" height="45" fill="#fff2df" stroke="#a7520c" stroke-width="1.8" rx="11"/>
+<text x="360.0" y="2100" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="22" fill="#a7520c">逐元素 ×</text>
+<polyline points="360,2117 360,2131" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<rect x="198" y="2135" width="324" height="45" fill="#f0ebff" stroke="#6145ab" stroke-width="1.8" rx="11"/>
+<text x="360.0" y="2165" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="22" fill="#6145ab">学习带 B_o → 逆 Walsh</text>
+<polyline points="360,2183 360,2191" fill="none" stroke="#59738b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#a)"/>
+<rect x="217" y="2193" width="286" height="53" fill="#ffffff" stroke="#6145ab" stroke-width="1.8" rx="9"/>
+<rect x="228" y="2205" width="4" height="4" fill="#6145ab" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="234" y="2205" width="4" height="4" fill="#f0ebff" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="240" y="2205" width="4" height="4" fill="#f0ebff" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="228" y="2211" width="4" height="4" fill="#f0ebff" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="234" y="2211" width="4" height="4" fill="#6145ab" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="240" y="2211" width="4" height="4" fill="#f0ebff" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="228" y="2217" width="4" height="4" fill="#f0ebff" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="234" y="2217" width="4" height="4" fill="#f0ebff" stroke="none" stroke-width="1.8" rx="0"/>
+<rect x="240" y="2217" width="4" height="4" fill="#6145ab" stroke="none" stroke-width="1.8" rx="0"/>
+<text x="368.0" y="2220" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="700" font-size="21" fill="#6145ab">Hₚ · 通道混合结果</text>
+<text x="360.0" y="2242" text-anchor="middle" font-family="Noto Sans CJK SC, sans-serif" font-weight="400" font-size="19" fill="#14283e">512 维</text>
+<text x="68" y="2293" text-anchor="start" font-family="Noto Sans CJK SC, sans-serif" font-weight="400" font-size="19" fill="#48617b">三条带各存 512 × 65；只在 Walsh 基中混合相邻通道。</text>
+<rect x="47" y="2301" width="626" height="48" fill="#e8f1fe" stroke="none" stroke-width="1.8" rx="0"/>
+<text x="63" y="2331" text-anchor="start" font-family="Noto Sans CJK SC, sans-serif" font-weight="400" font-size="19" fill="#14283e">Body 最后输出 X⁽¹⁶⁾，E 还要等 Attention 和按层融合。</text>
+<text x="33" y="2361" text-anchor="start" font-family="Noto Sans CJK SC, sans-serif" font-weight="400" font-size="18" fill="#48617b">白框＝张量；色底＝运算。m₃₂ 是有效图像格掩码。</text>
+</svg>
