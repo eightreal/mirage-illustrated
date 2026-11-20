@@ -57,7 +57,9 @@ TOKEN = re.compile(
 LINK = re.compile(r"(?P<img>!?)\[(?P<label>[^\[\]\n]+)\]\((?P<url>[^()\n\s]+)\)")
 STATIC_FOLDERS = {"assets", "code", "upstream", "model-metadata"}
 BODY_VECTOR = "assets/impl-05-body.svg"
-SVG_OVERLAY = {
+BODY_PREVIEW = "assets/impl-05-body-preview.svg"
+HOME_VECTORS = {"assets/overview-encoder.svg", "assets/overview-evidence.svg"}
+SVG_OVERLAY = HOME_VECTORS | {
     BODY_VECTOR,
     "assets/15_block_dimensions.svg",
     "assets/16_stem_backbone.svg",
@@ -186,6 +188,10 @@ def update_markdown_links(md, old_path, url, found):
             must(new_target.startswith("assets/")
                  and (new_target.endswith(".png") or new_target in SVG_OVERLAY),
                  f"{old_path}: nonlocal or unapproved visual type")
+            if new_target == BODY_VECTOR:
+                found.append((url, BODY_PREVIEW, ""))
+                preview = quote(pp.relpath(BODY_PREVIEW, start=pp.dirname(url) or "."), safe="/")
+                return f'[![{label}]({preview})]({relative} "打开完整 Body 图")'
             return f'[![{label}]({relative})]({relative} "打开原尺寸图片")'
         return f"[{label}]({relative})"
     # Existing fences and code spans must not be touched.
@@ -287,16 +293,24 @@ def stage(zip_path, output, layout_path, bundled=False, baseurl=""):
                       f"{{#{anchor}}}" in page_contents[target]))
                  for _,target,anchor in found),
              "A Markdown fragment has no explicit anchor in the output")
+        home = json.loads(Path(__file__).with_name("overview_assets.json").read_text(encoding="utf-8"))
+        must(set(home) == HOME_VECTORS, "Overview SVG manifest mismatch")
         for name in sorted(static):
             if name == "downloads/Mirage_GitHub_Pages.zip":
                 (stage_root / "downloads").mkdir()
                 shutil.copyfile(zip_path, stage_root / name)
                 continue
-            if name == BODY_VECTOR:
+            if name in (BODY_VECTOR, BODY_PREVIEW):
                 raw = Path(__file__).with_name("body_block.svg").read_bytes()
+                if name == BODY_PREVIEW:
+                    old_view = b'height="2390" viewBox="0 0 720 2390"'
+                    must(old_view in raw, "Body artwork dimensions changed")
+                    raw = raw.replace(old_view, b'height="505" viewBox="0 132 720 505"', 1)
+            elif name in HOME_VECTORS:
+                raw = home[name].encode("utf-8")
             else:
                 raw = archive.read(("source/" if name in SVG_OVERLAY else "docs/") + clean_path(name))
-            if name in SVG_OVERLAY:
+            if name in SVG_OVERLAY or name == BODY_PREVIEW:
                 must(b"<svg" in raw, f"Invalid SVG {name}")
             if name.endswith(".png"):
                 must(raw.startswith(b"\x89PNG\r\n\x1a\n"), f"Invalid PNG {name}")
@@ -365,10 +379,12 @@ def check_built(output, baseurl):
         must(page.headings == 1 and len(page.ids) == len(set(page.ids)), f"{path}: heading/ID issue")
         pages[url] = page
     architecture = pages["chapters/01-architecture.html"]
-    must("body-structure" in architecture.ids and any(link.endswith("/impl-05-body.svg") for link in architecture.images),
+    must("body-structure" in architecture.ids and any(link.endswith("/impl-05-body-preview.svg") for link in architecture.images)
+         and any(link.endswith("/impl-05-body.svg") for link in architecture.hrefs),
          "Missing Body architecture anchor or figure")
     implementation = pages["chapters/02-implementation.html"]
-    must(any(link.endswith("/impl-05-body.svg") for link in implementation.images), "Missing Body in implementation")
+    must(any(link.endswith("/impl-05-body-preview.svg") for link in implementation.images)
+         and any(link.endswith("/impl-05-body.svg") for link in implementation.hrefs), "Missing Body in implementation")
     must(implementation.math == 218 and implementation.code >= 4, "Lost MathML or code fences")
     must(all(f"section-{i}" in implementation.ids for i in range(1,22)), "Missing implementation anchors")
     images = set()
@@ -385,7 +401,8 @@ def check_built(output, baseurl):
                 images.add(target)
             if u.fragment and target in pages:
                 must(unquote(u.fragment) in pages[target].ids, f"{url}: broken anchor {link}")
-    must(SVG_OVERLAY <= images and len(images) == 71, "Missing figures or SVG overlays")
+    must(((SVG_OVERLAY-{BODY_VECTOR}) | {BODY_PREVIEW}) <= images and len(images) == 71,
+         "Missing figures or SVG overlays")
     print(f"Built Jekyll site check passed: {len(pages)} pages, {len(images)} figures, prefix {baseurl or '/'}")
 
 
