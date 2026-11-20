@@ -1,0 +1,40 @@
+name: Publish Mirage to GitHub Pages
+on:
+  push:
+    branches: [main]
+    paths: ['Mirage_GitHub_Pages.zip', '.github/workflows/pages.yml']
+  workflow_dispatch:
+permissions: {}
+concurrency:
+  group: mirage-pages
+  cancel-in-progress: false
+jobs:
+  build:
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Verify and extract static pages only
+        run: |
+          echo '1de6e2e7557e03e9524f7f56e66bbdb87f3ab995199b34c725782d67f2545415  Mirage_GitHub_Pages.zip' | sha256sum -c -
+          unzip -q Mirage_GitHub_Pages.zip 'docs/*' -d _release
+          test -s _release/docs/index.html
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: _release/docs
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deployment
