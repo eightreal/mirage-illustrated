@@ -41,9 +41,13 @@ h1{font-size:clamp(1.6rem,4vw,2.55rem);letter-spacing:.005em;color:#162948}
 h2{margin:2em 0 .7em;padding:0 0 .4em;border-bottom:1px solid var(--edge);font-size:clamp(1.22rem,2.6vw,1.65rem)}
 h3{margin-top:1.65em;font-size:1.12rem}
 p,ul,ol{margin:0 0 1em} li+li{margin-top:.29em}
-.content img{display:block;border:1px solid var(--edge);border-radius:12px;max-width:100%;height:auto;background:#fff}
-.content .figure-open{display:block;width:max-content;max-width:100%;cursor:zoom-in;margin:.85rem 0 1.15rem}
-.figure-open img{box-shadow:0 3px 16px #233f660d}
+.content img{display:block;border:1px solid var(--edge);border-radius:12px;width:auto;height:auto;max-width:100%;object-fit:contain;background:#fff}
+.content img.figure-tall,.content img[src$=".svg"]{max-height:min(68vh,650px);max-height:min(68svh,650px)}
+.content .figure-open{display:block;width:max-content;max-width:100%;cursor:zoom-in;margin:.85rem auto 1.15rem;text-decoration:none}
+.figure-open img{margin-inline:auto;box-shadow:0 3px 16px #233f660d}
+.figure-open:hover img{border-color:#8daee0}
+.figure-hint{display:block;margin-top:.32rem;color:var(--dim);font-size:.78rem;text-align:center}
+@media(max-width:910px){.content img.figure-tall,.content img[src$=".svg"]{max-height:min(52vh,480px);max-height:min(52svh,480px)}}
 figure{margin:1.1em 0}
 figcaption{font-size:.87rem;color:var(--dim);margin:.4em 0}
 blockquote{margin:1.25rem 0;padding:.6rem 1rem;border-left:4px solid #7e9eda;background:#f1f6ff;color:#304765;border-radius:0 8px 8px 0}
@@ -114,10 +118,22 @@ math[display="block"]{display:block;margin:1em 0;max-width:100%;overflow-x:auto}
   }
   document.querySelectorAll('.content img').forEach(img=>{
     img.loading='lazy'; img.decoding='async';
-    if(img.closest('a'))return;
-    const a=document.createElement('a');
-    a.className='figure-open'; a.href=img.getAttribute('src'); a.title='打开原始图片';
-    img.before(a); a.append(img);
+    let a=img.closest('a');
+    if(!a){
+      a=document.createElement('a');
+      a.href=img.getAttribute('src'); img.before(a); a.append(img);
+    }
+    a.classList.add('figure-open');
+    a.title='打开原始图片';
+    const updateHint=()=>{
+      if(img.naturalWidth>0&&img.naturalHeight>img.naturalWidth*1.15&&!a.querySelector('.figure-hint')){
+        img.classList.add('figure-tall');
+        const note=document.createElement('span');
+        note.className='figure-hint';note.textContent='点图查看原尺寸';
+        note.setAttribute('aria-hidden','true');a.append(note);
+      }
+    };
+    img.addEventListener('load',updateHint,{once:true});updateHint();
   });
   const active=document.querySelector('.nav [aria-current="page"]');
   if(active&&mobile.matches) active.scrollIntoView({block:'nearest',inline:'center'});
