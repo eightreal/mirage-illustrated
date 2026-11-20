@@ -1,8 +1,13 @@
-name: Publish Mirage to GitHub Pages
+name: Render Mirage with GitHub Pages Jekyll
 on:
   push:
     branches: [main]
-    paths: ['Mirage_GitHub_Pages.zip', '.github/workflows/pages.yml']
+    paths:
+      - 'Mirage_GitHub_Pages.zip'
+      - 'tools/stage_jekyll.py'
+      - 'tools/doc_layout.html'
+      - 'tools/draw_mirage_figures.py'
+      - '.github/workflows/pages.yml'
   workflow_dispatch:
 permissions: {}
 concurrency:
@@ -12,19 +17,29 @@ jobs:
   build:
     permissions:
       contents: read
+      pages: read
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
         with:
           persist-credentials: false
-      - name: Verify and extract static pages only
+      - name: Stage Markdown, layout, and local MathML
         run: |
           echo '1de6e2e7557e03e9524f7f56e66bbdb87f3ab995199b34c725782d67f2545415  Mirage_GitHub_Pages.zip' | sha256sum -c -
-          unzip -q Mirage_GitHub_Pages.zip 'docs/*' -d _release
-          test -s _release/docs/index.html
+          python3 tools/stage_jekyll.py --zip Mirage_GitHub_Pages.zip --output _jekyll --layout tools/doc_layout.html --baseurl /mirage-illustrated
+          python3 tools/draw_mirage_figures.py --out _jekyll/assets
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Render with the GitHub Pages Jekyll engine
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./_jekyll
+          destination: ./_site
+      - name: Validate rendered chapters, figures, formulas and links
+        run: python3 tools/stage_jekyll.py --check-built _site --baseurl /mirage-illustrated
       - uses: actions/upload-pages-artifact@v4
         with:
-          path: _release/docs
+          path: ./_site
   deploy:
     if: github.ref == 'refs/heads/main'
     needs: build
