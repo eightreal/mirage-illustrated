@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="generator" content="Jekyll (GitHub Pages)">
+<meta name="description" content="Mirage 中文图解：视觉编码器、D 特征融合、Attention、训练与 API。">
+<title>{{ page.title | escape }} · Mirage 图解</title>
+<style>
+:root{color-scheme:light;--ink:#18263b;--dim:#495c72;--paper:#fff;--bg:#f4f7fb;--blue:#2452a5;--wash:#eaf2ff;--edge:#dce5f0;--sticky:76px}
+*{box-sizing:border-box}
+html{scroll-padding-top:calc(var(--sticky) + 18px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.76 system-ui,"Noto Sans CJK SC","Microsoft YaHei",sans-serif}
+a{color:var(--blue);text-underline-offset:.2em}
+a:focus-visible,summary:focus-visible{outline:3px solid #4a7ccb;outline-offset:3px}
+.skip{position:fixed;top:8px;left:8px;transform:translateY(-200%);z-index:5;background:white;padding:.5em 1em}
+.skip:focus{transform:none}
+.bar{position:sticky;top:0;z-index:3;background:#fff;border-bottom:1px solid var(--edge)}
+.bar-inner{max-width:1360px;margin:auto;min-height:var(--sticky);display:flex;align-items:center;gap:clamp(18px,4vw,50px);padding:0 26px}
+.logo{display:inline-flex;align-items:center;gap:11px;flex:none;color:var(--ink);font-weight:800;text-decoration:none;letter-spacing:.025em}
+.logo svg{width:35px;height:35px;color:#3064ba}
+.nav{display:flex;gap:4px;align-items:center;overflow:auto;scrollbar-width:thin;white-space:nowrap}
+.nav a{padding:8px 10px;text-decoration:none;color:var(--dim);border-radius:8px;font-size:.88rem;font-weight:650}
+.nav a:hover,.nav a[aria-current=page]{background:var(--wash);color:var(--blue)}
+.site{max-width:1360px;margin:auto;padding:30px 26px 52px;display:grid;grid-template-columns:minmax(145px,218px) minmax(0,1fr);gap:24px;align-items:start}
+.aside{position:sticky;top:calc(var(--sticky) + 26px);max-height:calc(100vh - var(--sticky) - 45px);overflow:auto;background:var(--paper);border:1px solid var(--edge);border-radius:14px;padding:14px 17px}
+.aside summary{font-size:.86rem;font-weight:760;cursor:pointer}
+.aside ol{list-style:none;padding:0;margin:8px 0 2px}
+.aside a{display:block;padding:3px 0;font-size:.81rem;color:var(--dim);text-decoration:none;line-height:1.52}
+.aside a:hover,.aside a[aria-current=location]{color:var(--blue);text-decoration:underline}
+.sheet{min-width:0;max-width:1090px;border:1px solid var(--edge);border-radius:18px;background:var(--paper);box-shadow:0 5px 25px #233f6610}
+.lead{border-bottom:1px solid var(--edge);padding:26px clamp(18px,5vw,54px) 22px;background:linear-gradient(115deg,#f3f8ff,#fff 80%);border-radius:18px 18px 0 0}
+.crumb{font-size:.86rem;color:var(--dim);margin:0}
+.crumb a{text-decoration:none}
+.badge{display:inline-block;font-size:.74rem;letter-spacing:.115em;text-transform:uppercase;color:var(--blue);border-radius:999px;background:var(--wash);padding:3px 10px;margin:12px 0 0;font-weight:720}
+.content{padding:clamp(16px,4vw,48px) clamp(18px,5vw,54px);overflow-wrap:anywhere}
+.content>:first-child{margin-top:0}
+h1,h2,h3{line-height:1.32}
+h1{font-size:clamp(1.6rem,4vw,2.55rem);letter-spacing:.005em;color:#162948}
+h2{margin:2em 0 .7em;padding:0 0 .4em;border-bottom:1px solid var(--edge);font-size:clamp(1.22rem,2.6vw,1.65rem)}
+h3{margin-top:1.65em;font-size:1.12rem}
+p,ul,ol{margin:0 0 1em} li+li{margin-top:.29em}
+.content img{display:block;border:1px solid var(--edge);border-radius:12px;max-width:100%;height:auto;background:#fff}
+.content .figure-open{display:block;width:max-content;max-width:100%;cursor:zoom-in;margin:.85rem 0 1.15rem}
+.figure-open img{box-shadow:0 3px 16px #233f660d}
+figure{margin:1.1em 0}
+figcaption{font-size:.87rem;color:var(--dim);margin:.4em 0}
+blockquote{margin:1.25rem 0;padding:.6rem 1rem;border-left:4px solid #7e9eda;background:#f1f6ff;color:#304765;border-radius:0 8px 8px 0}
+blockquote :last-child{margin-bottom:0}
+pre{background:#17243c;color:#ecf3ff;overflow:auto;border-radius:9px;padding:.9rem 1rem;white-space:pre;line-height:1.54}
+code{font: .89em ui-monospace,SFMono-Regular,Consolas,monospace}
+:not(pre)>code{border-radius:4px;color:#284b7a;background:#edf3fb;padding:.09em .23em}
+pre code{color:inherit}
+table{display:block;max-width:100%;overflow:auto;border-collapse:collapse;margin:1rem 0;scrollbar-width:thin}th,td{border:1px solid var(--edge);padding:.42rem .7rem;text-align:left}th{background:var(--wash)}
+math[display="block"]{display:block;margin:1em 0;max-width:100%;overflow-x:auto}
+.foot{border-top:1px solid var(--edge);margin:0;padding:14px clamp(18px,5vw,54px);font-size:.82rem;color:var(--dim)}
+@media(max-width:910px){:root{--sticky:112px}.bar-inner{min-height:0;padding:10px 15px 6px;gap:5px;display:block}.logo{margin:0 0 5px}.logo svg{width:28px;height:28px}.nav{padding-bottom:4px}.site{grid-template-columns:1fr;padding:14px;gap:12px}.aside{position:static;max-height:none}.lead{padding:15px 19px}.content{padding:20px 19px}}
+@media(max-width:430px){.site{padding:9px}.sheet,.lead{border-radius:12px}.content{padding-inline:13px}.foot{padding-inline:13px}.nav a{padding:7px 8px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到正文</a>
+<header class="bar"><div class="bar-inner">
+<a class="logo" href="{{ '/' | relative_url }}" aria-label="Mirage 图解首页"><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="3" y="3" width="34" height="34" rx="9" fill="currentColor"/><path d="M10 28V13l10 9 10-9v15M10 28h20" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Mirage 图解</span></a>
+<nav class="nav" aria-label="章节导航">
+{% assign tabs = '/|总览;/chapters/01-architecture.html|结构;/chapters/02-implementation.html|实现;/chapters/03-training.html|训练;/chapters/04-api.html|API;/chapters/05-model-files.html|模型文件;/code/README.html|代码;/upstream/README.html|SDK' | split: ';' %}
+{% for item in tabs %}{% assign pair = item | split: '|' %}<a href="{{ pair[0] | relative_url }}"{% if page.url == pair[0] or page.url == '/index.html' and pair[0] == '/' %} aria-current="page"{% endif %}>{{ pair[1] }}</a>{% endfor %}
+</nav></div></header>
+<div class="site">
+<aside class="aside" aria-label="本页目录"><details id="outline" open><summary>本页目录</summary><ol id="toc"></ol></details></aside>
+<main class="sheet" id="main">
+<div class="lead"><p class="crumb"><a href="{{ '/' | relative_url }}">Mirage 图解</a> / {{ page.title | escape }}</p><span class="badge">中文技术文档</span></div>
+<article class="content">
+{% assign rendered = content %}
+{% assign eqs = site.data.mirage_equations[page.equation_key] %}
+{% for eq in eqs %}{% assign rendered = rendered | replace: eq.marker, eq.mathml %}{% endfor %}
+{{ rendered }}
+</article>
+<footer class="foot">Markdown 由 GitHub Pages 的 Jekyll 在部署时构建。公式和图片均随站点提供。</footer>
+</main></div>
+<script>
+(() => {
+  const list=document.getElementById('toc'), outline=document.getElementById('outline');
+  const mobile=matchMedia('(max-width:910px)');
+  if(mobile.matches) outline.open=false;
+  const links=[];
+  document.querySelectorAll('.content h2').forEach((h,i)=>{
+    if(!h.id) h.id='outline-'+(i+1);
+    const a=document.createElement('a'), li=document.createElement('li');
+    a.href='#'+encodeURIComponent(h.id); a.textContent=h.textContent;
+    a.addEventListener('click',()=>{if(mobile.matches) outline.open=false;});
+    links.push([h,a]); li.append(a); list.append(li);
+  });
+  if(!links.length) outline.parentElement.hidden=true;
+  if('IntersectionObserver' in window){
+    const o=new IntersectionObserver(entries=>entries.forEach(e=>{
+      if(!e.isIntersecting)return;
+      links.forEach(([h,a])=>{if(h===e.target)a.setAttribute('aria-current','location'); else a.removeAttribute('aria-current');});
+    }),{rootMargin:'-22% 0px -55% 0px'});
+    links.forEach(([h])=>o.observe(h));
+  }
+  document.querySelectorAll('.content img').forEach(img=>{
+    img.loading='lazy'; img.decoding='async';
+    if(img.closest('a'))return;
+    const a=document.createElement('a');
+    a.className='figure-open'; a.href=img.getAttribute('src'); a.title='打开原始图片';
+    img.before(a); a.append(img);
+  });
+  const active=document.querySelector('.nav [aria-current="page"]');
+  if(active&&mobile.matches) active.scrollIntoView({block:'nearest',inline:'center'});
+})();
+</script>
+</body>
+</html>
