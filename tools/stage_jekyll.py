@@ -58,6 +58,12 @@ LINK = re.compile(r"(?P<img>!?)\[(?P<label>[^\[\]\n]+)\]\((?P<url>[^()\n\s]+)\)"
 STATIC_FOLDERS = {"assets", "code", "upstream", "model-metadata"}
 BODY_VECTOR = "assets/impl-05-body.svg"
 BODY_PREVIEW = "assets/impl-05-body-preview.svg"
+BODY_CHANNEL_PREVIEW = "assets/impl-05-body-channel.svg"
+BODY_VIEWS = {
+    BODY_VECTOR: (636, 1673, "一个 Body Block：两个残差与 HConvGLU"),
+    BODY_PREVIEW: (638, 638, "第一个残差：门控空间混合"),
+    BODY_CHANNEL_PREVIEW: (1275, 486, "第二个残差：通道混合和 GRN"),
+}
 HOME_VECTORS = {"assets/overview-encoder.svg", "assets/overview-evidence.svg"}
 SVG_OVERLAY = HOME_VECTORS | {
     BODY_VECTOR,
@@ -189,9 +195,13 @@ def update_markdown_links(md, old_path, url, found):
                  and (new_target.endswith(".png") or new_target in SVG_OVERLAY),
                  f"{old_path}: nonlocal or unapproved visual type")
             if new_target == BODY_VECTOR:
-                found.append((url, BODY_PREVIEW, ""))
-                preview = quote(pp.relpath(BODY_PREVIEW, start=pp.dirname(url) or "."), safe="/")
-                return f'[![{label}]({preview})]({relative} "打开完整 Body 图")'
+                def panel(asset, alt):
+                    found.append((url, asset, ""))
+                    preview = quote(pp.relpath(asset, start=pp.dirname(url) or "."), safe="/")
+                    return f'[![{alt}]({preview})]({relative} "打开单个 Body Block 完整图")'
+                spatial = panel(BODY_PREVIEW, "单个 Body 的第一段：空间门控与第一次残差")
+                channel = panel(BODY_CHANNEL_PREVIEW, "同一个 Body 的第二段：通道混合与第二次残差")
+                return spatial + "\n\n第一段产生的中间张量 **X̃** 直接进入下面的第二段。两张图连起来才是一个 Body Block。\n\n" + channel
             return f'[![{label}]({relative})]({relative} "打开原尺寸图片")'
         return f"[{label}]({relative})"
     # Existing fences and code spans must not be touched.
@@ -263,14 +273,21 @@ def stage(zip_path, output, layout_path, bundled=False, baseurl=""):
                 must(raw.count(next_image) == 1, "Cannot locate Body insertion point")
                 body_section = (
                     '<a id="body-structure"></a>\n\n'
-                    '### Body 结构：16 个块与块内两次残差\n\n'
-                    '![Mirage Body：串联的 16 个块、空间门控和通道混合](../assets/impl-05-body.png)\n\n'
-                    'F5 依次进入 16 个结构相同、参数各自独立的 Body 块，全程保持 **16×16×512**。'
-                    '最后一块输出交给 Attention，它还不是粗特征 E。每个块先做邻近位置的深度卷积门控，'
-                    '再做逐位置的 HConvGLU 通道混合及跨空间统计的 GRN；两段各有自己的残差相加。'
+                    '### 一个 Body Block 在做什么\n\n'
+                    '一个 Body Block 输入和输出都是 **16×16×512**。它先在每个通道内混合邻近网格位置，'
+                    '再逐位置混合 512 个通道，最后用 GRN 根据有效图像位置的响应调整通道强度。'
+                    '这两段各有一条旁路，分别加回本段输入。图中白框是张量，彩色框是运算。\n\n'
+                    '![单个 Body Block 剖面](../assets/impl-05-body.png)\n\n'
                     '公式见[实现章第 5 节](02-implementation.md#section-5)。\n\n'
                 )
                 raw = raw.replace(next_image, body_section + next_image, 1)
+            if key == "implementation":
+                raw = raw.replace("十六个空间 body blocks", "一个 Body Block 的内部结构", 2)
+                raw = raw.replace(
+                    "stem 后有16个卷积主体块；每块包括空间门控混合与 HConvGLU 通道混合。",
+                    "单块由两段带残差的运算组成：先做空间门控混合，再做 HConvGLU 通道混合及 GRN。",
+                    1,
+                )
             converted = update_markdown_links(raw, source, public, found)
             converted = add_downloads(converted, key, bundled, public, found)
             current_fences = [m.group(0) for m in TOKEN.finditer(converted) if m.group("fence")]
@@ -300,17 +317,18 @@ def stage(zip_path, output, layout_path, bundled=False, baseurl=""):
                 (stage_root / "downloads").mkdir()
                 shutil.copyfile(zip_path, stage_root / name)
                 continue
-            if name in (BODY_VECTOR, BODY_PREVIEW):
+            if name in BODY_VIEWS:
                 raw = Path(__file__).with_name("body_block.svg").read_bytes()
-                if name == BODY_PREVIEW:
-                    old_view = b'height="2390" viewBox="0 0 720 2390"'
-                    must(old_view in raw, "Body artwork dimensions changed")
-                    raw = raw.replace(old_view, b'height="505" viewBox="0 132 720 505"', 1)
+                old_view = b'height="2390" viewBox="0 0 720 2390"'
+                must(old_view in raw, "Body artwork dimensions changed")
+                y, height, title = BODY_VIEWS[name]
+                raw = raw.replace(old_view, f'height="{height}" viewBox="0 {y} 720 {height}"'.encode(), 1)
+                raw = re.sub(rb"<title>.*?</title>", ("<title>" + title + "</title>").encode("utf-8"), raw, count=1)
             elif name in HOME_VECTORS:
                 raw = home[name].encode("utf-8")
             else:
                 raw = archive.read(("source/" if name in SVG_OVERLAY else "docs/") + clean_path(name))
-            if name in SVG_OVERLAY or name == BODY_PREVIEW:
+            if name in SVG_OVERLAY or name in BODY_VIEWS:
                 must(b"<svg" in raw, f"Invalid SVG {name}")
             if name.endswith(".png"):
                 must(raw.startswith(b"\x89PNG\r\n\x1a\n"), f"Invalid PNG {name}")
@@ -380,10 +398,12 @@ def check_built(output, baseurl):
         pages[url] = page
     architecture = pages["chapters/01-architecture.html"]
     must("body-structure" in architecture.ids and any(link.endswith("/impl-05-body-preview.svg") for link in architecture.images)
+         and any(link.endswith("/impl-05-body-channel.svg") for link in architecture.images)
          and any(link.endswith("/impl-05-body.svg") for link in architecture.hrefs),
          "Missing Body architecture anchor or figure")
     implementation = pages["chapters/02-implementation.html"]
     must(any(link.endswith("/impl-05-body-preview.svg") for link in implementation.images)
+         and any(link.endswith("/impl-05-body-channel.svg") for link in implementation.images)
          and any(link.endswith("/impl-05-body.svg") for link in implementation.hrefs), "Missing Body in implementation")
     must(implementation.math == 218 and implementation.code >= 4, "Lost MathML or code fences")
     must(all(f"section-{i}" in implementation.ids for i in range(1,22)), "Missing implementation anchors")
@@ -401,7 +421,7 @@ def check_built(output, baseurl):
                 images.add(target)
             if u.fragment and target in pages:
                 must(unquote(u.fragment) in pages[target].ids, f"{url}: broken anchor {link}")
-    must(((SVG_OVERLAY-{BODY_VECTOR}) | {BODY_PREVIEW}) <= images and len(images) == 71,
+    must(((SVG_OVERLAY-{BODY_VECTOR}) | {BODY_PREVIEW, BODY_CHANNEL_PREVIEW}) <= images and len(images) == 72,
          "Missing figures or SVG overlays")
     print(f"Built Jekyll site check passed: {len(pages)} pages, {len(images)} figures, prefix {baseurl or '/'}")
 
