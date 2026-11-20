@@ -1,0 +1,389 @@
+#!/usr/bin/env python3
+"""Stage Mirage as real Jekyll Markdown from the prior verified offline ZIP.
+
+Usage:
+    python3 stage_jekyll.py --zip ../Mirage_GitHub_Pages.zip --output site
+    python3 stage_jekyll.py --zip ../Mirage_GitHub_Pages.zip --output site --layout doc_layout.html
+
+Publish the generated site root via the official actions/jekyll-build-pages action.
+Only the prior rendered <math> nodes are read. No prior HTML page is an input page.
+The script is stdlib-only. Local Jekyll build validation is a separate step.
+"""
+from __future__ import annotations
+
+import argparse
+from html import unescape
+from html.parser import HTMLParser
+import json
+from pathlib import Path, PurePosixPath
+import posixpath as pp
+import re
+import shutil
+from tempfile import TemporaryDirectory
+from urllib.parse import quote, unquote, urlsplit
+from zipfile import ZipFile
+
+# (source Markdown in the offline ZIP, preserved HTML permalink, key, nav label).
+PAGES = [
+    ("README.md", "index.html", "overview", "首页"),
+    ("docs/01-architecture.md", "chapters/01-architecture.html", "architecture", "01 模型结构"),
+    ("docs/02-implementation.md", "chapters/02-implementation.html", "implementation", "02 实现与数学"),
+    ("docs/03-training.md", "chapters/03-training.html", "training", "03 训练"),
+    ("docs/04-api.md", "chapters/04-api.html", "api", "04 API"),
+    ("docs/05-model-files.md", "chapters/05-model-files.html", "model-files", "05 模型文件"),
+    ("code/README.md", "code/README.html", "code", "参考代码"),
+    ("upstream/README.md", "upstream/README.html", "upstream", "官方 SDK"),
+]
+META = ("config.json", "model_files.json", "tensor_manifest.json", "tensor_summary.csv",
+        "toy_memory.json", "toy_model.npz", "verify_examples.py")
+CODE = ("mirage_reference.py", "decoder_ops.py", "train_toy.py", "test_reference.py",
+        "native_ctypes_demo.py", "official_api_demo.py", "requirements.txt")
+SDK = ("LICENSE-Apache-2.0.txt", "cactus-sdk-bb822a3.tar.gz",
+       "source/LICENSE", "source/cactus/agent/audio.py", "source/cactus/agent/mirage.py",
+       "source/cactus/agent/runtime.py", "source/cactus/cli/parser.py",
+       "source/cactus/cli/vision.py", "source/tests/test_mirage.py")
+ROUTES = {source: url for source, url, *_ in PAGES}
+STYLE_SNIP = re.compile(r"<style[^>]*>(.*?)</style>", re.S)
+MATH = re.compile(r"<math\b[^>]*>.*?</math>", re.S)
+ANNOTATION = re.compile(r'<annotation encoding="application/x-tex">(.*?)</annotation>', re.S)
+TOKEN = re.compile(
+    r"(?P<fence>^[ ]{0,3}(?P<fmark>`{3,}|~{3,})[^\n]*\n.*?"
+    r"^[ ]{0,3}(?P=fmark)[ \t]*(?:\n|$))"
+    r"|(?P<code>(?P<cmark>`+)[^\n`]*?(?P=cmark))"
+    r"|(?P<display>(?<!\\)\$\$(?P<dtex>.*?)\$\$)"
+    r"|(?P<inline>(?<![\\$])\$(?![ \t\n$])(?P<itex>(?:\\.|[^$\n])+?)(?<![ \t])\$(?![\d$]))",
+    re.M | re.S,
+)
+LINK = re.compile(r"(?P<img>!?)\[(?P<label>[^\[\]\n]+)\]\((?P<url>[^()\n\s]+)\)")
+STATIC_FOLDERS = {"assets", "code", "upstream", "model-metadata"}
+SVG_OVERLAY = {
+    "assets/15_block_dimensions.svg",
+    "assets/16_stem_backbone.svg",
+    "assets/17_d_fusion.svg",
+    "assets/18_mask_fusion.svg",
+}
+CONFIG = """title: "Mirage 图解技术文档"
+lang: zh-CN
+encoding: utf-8
+markdown: kramdown
+kramdown:
+  input: GFM
+  math_engine: null
+  syntax_highlighter: rouge
+strict_front_matter: true
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+"""
+EXTRA_CSS = """
+.site-nav {display:flex;flex-wrap:wrap;gap:.45rem .9rem;padding:0 0 1.1rem;
+  font-size:.88rem;line-height:1.4;}
+.site-nav a[aria-current="page"] { font-weight:750; text-decoration:none; }
+h1 {margin:.8rem 0 1.2rem}
+pre code { background:none; }
+picture,img { max-width:100%;height:auto; }
+:is([href$=".png"],[href$=".svg"]) > img { cursor:zoom-in; display:block; }
+math { max-width:100%; }
+math[display="block"] { overflow-x:auto; padding-block:.35rem; }
+@media(max-width:600px) {body {padding:1.25rem 1rem; font-size:16px}}
+"""
+
+
+def must(condition, message):
+    if not condition:
+        raise ValueError(message)
+
+
+def clean_path(name):
+    p = PurePosixPath(name)
+    must(not p.is_absolute() and ".." not in p.parts and name == p.as_posix()
+         and "\\" not in name, f"Unsafe path {name!r}")
+    return name
+
+
+def write(base, name, data):
+    dest = base / clean_path(name)
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    if isinstance(data, str):
+        data = data.encode("utf-8")
+    dest.write_bytes(data)
+
+
+def dump(base, name, data):
+    write(base, name, json.dumps(data, ensure_ascii=False, indent=2) + "\n")
+
+
+def norm_tex(x):
+    return re.sub(r"\s+", "", x)
+
+
+def protect_math(markdown, old_html, key):
+    """Replace math source only, in order, with pure text markers for Kramdown."""
+    rendered_tags = iter(MATH.findall(old_html))
+    equations = []
+    md_fences = []
+
+    def replace(m):
+        if m.group("fence"):
+            md_fences.append(m.group(0))
+            return m.group(0)
+        if m.group("code"):
+            return m.group(0)
+        is_display = m.group("display") is not None
+        tex = m.group("dtex") if is_display else m.group("itex")
+        rendered = next(rendered_tags, None)
+        must(rendered, f"{key}: missing prior MathML for {tex.strip()!r}")
+        tag = ANNOTATION.search(rendered)
+        must(tag, f"{key}: missing MathML TeX annotation")
+        must(norm_tex(tex) == norm_tex(unescape(tag.group(1))),
+             f"{key}: prior MathML and Markdown diverged for {tex.strip()!r}")
+        must(('display="block"' in rendered) == is_display,
+             f"{key}: display/inline mismatch for {tex.strip()!r}")
+        must(re.search(r"</?(?:script|iframe|object)\b|\bon\w+\s*=", rendered, re.I) is None,
+             f"{key}: unexpected active MathML")
+        marker = f"MIRAGEMATH{key.replace('-', '').upper()}Q{len(equations)+1:04d}END"
+        must(marker not in markdown, f"{key}: marker collided with input")
+        equations.append({"marker": marker, "mathml": rendered})
+        if is_display:
+            # A standalone Markdown paragraph, avoiding juxtaposing consecutive displays.
+            return f"\n\n{marker}\n\n"
+        return marker
+
+    protected = TOKEN.sub(replace, markdown)
+    must(next(rendered_tags, None) is None, f"{key}: unused prior MathML")
+    return protected, equations, md_fences
+
+
+def update_markdown_links(md, old_path, url, found):
+    def repl(m):
+        raw = m.group("url")
+        u = urlsplit(raw)
+        must(not u.scheme and not u.netloc and not u.path.startswith("/"),
+             f"External or root-absolute URL unexpected: {raw!r}")
+        if not u.path:
+            if u.fragment:
+                found.append((url, url, unquote(u.fragment)))
+            return m.group(0)
+        old_target = pp.normpath(pp.join(pp.dirname(old_path), unquote(u.path)))
+        clean_path(old_target)
+        if old_target in ROUTES:
+            new_target = ROUTES[old_target]
+        else:
+            new_target = old_target
+            must(new_target.split("/", 1)[0] in STATIC_FOLDERS,
+                 f"{old_path}: unsupported target {new_target}")
+        if m.group("img") and new_target.endswith(".png") and new_target[:-4]+".svg" in SVG_OVERLAY:
+            new_target = new_target[:-4]+".svg"
+        found.append((url, new_target, unquote(u.fragment)))
+        relative = quote(pp.relpath(new_target, start=pp.dirname(url) or "."), safe="/")
+        relative += ("?" + u.query if u.query else "") + ("#" + u.fragment if u.fragment else "")
+        label = m.group("label")
+        if m.group("img"):
+            must(new_target.startswith("assets/")
+                 and (new_target.endswith(".png") or new_target in SVG_OVERLAY),
+                 f"{old_path}: nonlocal or unapproved visual type")
+            return f'[![{label}]({relative})]({relative} "打开原尺寸图片")'
+        return f"[{label}]({relative})"
+    # Existing fences and code spans must not be touched.
+    gap = 0
+    parts = []
+    for match in TOKEN.finditer(md):
+        if match.group("fence") is None and match.group("code") is None:
+            continue
+        parts += [LINK.sub(repl, md[gap:match.start()]), match.group(0)]
+        gap = match.end()
+    parts.append(LINK.sub(repl, md[gap:]))
+    return "".join(parts)
+
+
+def add_downloads(md, key, bundled, url, found):
+    def links(folder, names, heading):
+        mdlinks = [f"- [`{n}`]({quote(pp.relpath(folder+'/'+n, pp.dirname(url) or '.'),safe='/')})"
+                   for n in names]
+        found.extend((url, folder+"/"+n, "") for n in names)
+        return f"\n\n## {heading}\n\n" + "\n".join(mdlinks) + "\n"
+
+    if key == "overview":
+        md = md.replace(
+            "**在 GitHub 上从下方目录阅读；离线时，解压后打开 `打开这里.html`。**",
+            "**本网页由 GitHub Pages 的 Jekyll 从项目 Markdown 构建。**",
+        )
+        md += links("model-metadata", META, "下载模型元数据和教学样例")
+        if bundled:
+            md += ("\n\n## 下载完整项目\n\n"
+                   "[完整离线项目 ZIP](downloads/Mirage_GitHub_Pages.zip)。"
+                   "其中保留可编辑的 Markdown、SVG、参考代码和源码说明。\n")
+            found.append((url, "downloads/Mirage_GitHub_Pages.zip", ""))
+    elif key == "code":
+        md += links("code", CODE, "下载教学代码")
+    elif key == "upstream":
+        md += links("upstream", SDK[:2], "下载官方 SDK 归档和许可证")
+    return md
+
+
+def stage(zip_path, output, layout_path, bundled=False, baseurl=""):
+    layout = layout_path.read_text(encoding="utf-8")
+    must(all(word in layout for word in ("content", "relative_url", "mirage_equations",
+         "eq.marker", "eq.mathml")),
+         "Layout must render content, local equation data and relative URLs")
+    must(not baseurl or re.fullmatch(r"/[a-zA-Z0-9_.-]+(?:/[a-zA-Z0-9_.-]+)*", baseurl),
+         "Baseurl must be empty or a path like /mirage-illustrated without a trailing slash")
+    if baseurl:
+        clean_path(baseurl.lstrip("/"))
+    must(not output.exists(), f"Output already exists; refusing to overwrite: {output}")
+    output.parent.mkdir(parents=True, exist_ok=True)
+    found = []
+    math_data = {}
+    page_contents = {}
+    with ZipFile(zip_path) as archive, TemporaryDirectory(prefix="mirage-jekyll-",
+                                                          dir=output.parent) as td:
+        stage_root = Path(td) / "site"
+        stage_root.mkdir()
+        must(len(archive.namelist()) == len(set(archive.namelist())), "Duplicate ZIP members")
+        for source, public, key, _ in PAGES:
+            md = archive.read("source/" + source).decode("utf-8")
+            old_html = archive.read("docs/" + public).decode("utf-8")
+            heading, nl, content = md.partition("\n")
+            must(heading.startswith("# ") and nl, f"{source}: missing title")
+            must("{%" not in content and "{{" not in content,
+                 f"{source}: unreviewed Liquid syntax")
+            raw, eqs, fences = protect_math(content, old_html, key)
+            converted = update_markdown_links(raw, source, public, found)
+            converted = add_downloads(converted, key, bundled, public, found)
+            current_fences = [m.group(0) for m in TOKEN.finditer(converted) if m.group("fence")]
+            must(current_fences == fences, f"{source}: changed fenced code contents")
+            math_data[key] = eqs
+            fm = ("---\nlayout: default\n"
+                  f"title: {json.dumps(heading[2:], ensure_ascii=False)}\n"
+                  f"permalink: /{public}\nequation_key: {key}\n---\n")
+            body = fm + heading + "\n\n" + converted.lstrip("\n")
+            page_contents[public] = body
+            # Avoid the repository README exclude matching a nested input in some Jekyll versions.
+            input_path = public.removesuffix(".html") + ".md"
+            if public.endswith("/README.html"):
+                input_path = pp.dirname(public) + "/page.md"
+            write(stage_root, input_path, body)
+        urls = set(page_contents)
+        static = {target for _,target,_ in found if target not in urls}
+        must(all(not anchor or (target in urls and
+                     (f'id="{anchor}"' in page_contents[target] or
+                      f"{{#{anchor}}}" in page_contents[target]))
+                 for _,target,anchor in found),
+             "A Markdown fragment has no explicit anchor in the output")
+        for name in sorted(static):
+            if name == "downloads/Mirage_GitHub_Pages.zip":
+                (stage_root / "downloads").mkdir()
+                shutil.copyfile(zip_path, stage_root / name)
+                continue
+            raw = archive.read(("source/" if name in SVG_OVERLAY else "docs/") + clean_path(name))
+            if name in SVG_OVERLAY:
+                must(b"<svg" in raw, f"Invalid SVG {name}")
+            if name.endswith(".png"):
+                must(raw.startswith(b"\x89PNG\r\n\x1a\n"), f"Invalid PNG {name}")
+            write(stage_root, name, raw)
+        dump(stage_root, "_data/mirage_equations.json", math_data)
+        dump(stage_root, "_data/mirage_navigation.json",
+             [{"url": "/"+public, "label": label} for _,public,_,label in PAGES])
+        write(stage_root, "_config.yml", CONFIG + f"baseurl: {json.dumps(baseurl)}\n")
+        write(stage_root, "_layouts/default.html", layout)
+        css = archive.read("source/tools/offline_style.html").decode("utf-8")
+        snippet = STYLE_SNIP.search(css)
+        must(snippet, "No CSS in prior style fragment")
+        write(stage_root, "site.css", snippet.group(1).strip()+"\n"+EXTRA_CSS)
+        eq_count = sum(map(len, math_data.values()))
+        must(eq_count and len(urls) == 8, "Missing pages or math")
+        for key, entries in math_data.items():
+            source = next(public for _,public,k,_ in PAGES if k == key)
+            for record in entries:
+                must(page_contents[source].count(record["marker"]) == 1,
+                     f"{source}: marker missing or duplicated")
+        no_pre_rendered = [p for p in stage_root.rglob("*.html") if "_layouts" not in p.parts]
+        must(not no_pre_rendered, f"Unexpected static HTML page: {no_pre_rendered}")
+        stage_root.rename(output)
+    print(f"{output}: {len(urls)} Jekyll pages, {eq_count} MathML nodes, "
+          f"{sum(n.endswith('.png') for n in static)} PNGs, {len(static & SVG_OVERLAY)} overlay-ready SVGs, "
+          f"{len(static)} static resources.")
+
+
+class BuiltPage(HTMLParser):
+    def __init__(self, text):
+        self.ids = []
+        self.hrefs = []
+        self.images = set()
+        self.math = 0
+        self.headings = 0
+        self.code = 0
+        super().__init__()
+        self.feed(text)
+
+    def handle_starttag(self, tag, attrs):
+        values = dict(attrs)
+        if "id" in values:
+            self.ids.append(values["id"])
+        self.math += tag == "math"
+        self.headings += tag == "h1"
+        self.code += tag == "pre"
+        for attr in ("href", "src", "poster"):
+            if values.get(attr):
+                self.hrefs.append(values[attr])
+        if tag == "img":
+            must(values.get("alt"), "Built figure lost alt text")
+            self.images.add(values["src"])
+
+
+def check_built(output, baseurl):
+    """Inspect the output of official Jekyll build, not the staged Markdown."""
+    from urllib.parse import urljoin
+    prefix = "https://pages-test.invalid" + baseurl + "/"
+    pages = {}
+    for _, url, _, _ in PAGES:
+        path = output / url
+        text = path.read_text(encoding="utf-8")
+        must(not re.search(r"MIRAGEMATH[A-Z]+Q\d+END|\{%|\{\{ content", text),
+             f"{path}: unresolved Liquid or MathML marker")
+        page = BuiltPage(text)
+        must(page.headings == 1 and len(page.ids) == len(set(page.ids)), f"{path}: heading/ID issue")
+        pages[url] = page
+    implementation = pages["chapters/02-implementation.html"]
+    must(implementation.math == 218 and implementation.code >= 4, "Lost MathML or code fences")
+    must(all(f"section-{i}" in implementation.ids for i in range(1,22)), "Missing implementation anchors")
+    images = set()
+    for url, page in pages.items():
+        for link in page.hrefs:
+            resolved = urljoin(prefix + url, link)
+            must(resolved.startswith(prefix), f"{url}: external or prefix-escaping URL {link}")
+            u = urlsplit(resolved)
+            target = unquote(u.path[len(baseurl)+1:]) or "index.html"
+            if target.endswith("/"):
+                target += "index.html"
+            must((output / clean_path(target)).is_file(), f"{url}: missing {target}")
+            if link in page.images:
+                images.add(target)
+            if u.fragment and target in pages:
+                must(unquote(u.fragment) in pages[target].ids, f"{url}: broken anchor {link}")
+    must(SVG_OVERLAY <= images and len(images) == 71, "Missing figures or 4 SVG overlays")
+    print(f"Built Jekyll site check passed: {len(pages)} pages, {len(images)} figures, prefix {baseurl or '/'}")
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--zip", type=Path, help="Prior verified Mirage_GitHub_Pages.zip")
+    parser.add_argument("--output", type=Path, help="New directory for genuine Jekyll sources")
+    parser.add_argument("--check-built", type=Path, help="Check generated HTML after official Jekyll build")
+    parser.add_argument("--layout", type=Path, default=Path(__file__).with_name("doc_layout.html"),
+                        help="Liquid layout; defaults to doc_layout.html beside this script")
+    parser.add_argument("--baseurl", default="", help="Project URL prefix, e.g. /mirage-illustrated")
+    parser.add_argument("--bundle-download", action="store_true", help="Also copy/link the full prior ZIP")
+    args = parser.parse_args()
+    if args.check_built:
+        check_built(args.check_built.resolve(), args.baseurl)
+    elif args.zip and args.output:
+        stage(args.zip.resolve(), args.output.resolve(), args.layout.resolve(), args.bundle_download, args.baseurl)
+    else:
+        parser.error("use --zip and --output, or use --check-built after the Jekyll build")
+
+
+if __name__ == "__main__":
+    main()
