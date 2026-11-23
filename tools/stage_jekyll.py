@@ -38,6 +38,7 @@ REASON_PAGE = ("docs/06-reasoning.md", "chapters/06-reasoning.html", "reasoning"
 REASON_FIGURE = "assets/reasoning-model.svg"
 REASON_ARCHITECTURE = "assets/reasoning-architecture.svg"
 HELMET_FLOW = "assets/mirage-model-architecture.svg"
+TRICK_FIGURES = {f"assets/tricks-{name}.svg" for name in ("encoder", "mixer", "heads", "deployment")}
 META = ("config.json", "model_files.json", "tensor_manifest.json", "tensor_summary.csv",
         "toy_memory.json", "toy_model.npz", "verify_examples.py")
 CODE = ("mirage_reference.py", "decoder_ops.py", "train_toy.py", "test_reference.py",
@@ -69,7 +70,7 @@ BODY_VIEWS = {
     BODY_CHANNEL_PREVIEW: (1275, 486, "第二个残差：通道混合和 GRN"),
 }
 HOME_VECTORS = {"assets/overview-encoder.svg", "assets/overview-evidence.svg"}
-SVG_OVERLAY = HOME_VECTORS | {REASON_FIGURE, REASON_ARCHITECTURE, HELMET_FLOW,
+SVG_OVERLAY = HOME_VECTORS | TRICK_FIGURES | {REASON_FIGURE, REASON_ARCHITECTURE, HELMET_FLOW,
     BODY_VECTOR,
     "assets/15_block_dimensions.svg",
     "assets/16_stem_backbone.svg",
@@ -344,7 +345,7 @@ def stage(zip_path, output, layout_path, bundled=False, baseurl=""):
                 y, height, title = BODY_VIEWS[name]
                 raw = raw.replace(old_view, f'height="{height}" viewBox="0 {y} 720 {height}"'.encode(), 1)
                 raw = re.sub(rb"<title>.*?</title>", ("<title>" + title + "</title>").encode("utf-8"), raw, count=1)
-            elif name in {REASON_FIGURE, REASON_ARCHITECTURE, HELMET_FLOW}:
+            elif name in ({REASON_FIGURE, REASON_ARCHITECTURE, HELMET_FLOW} | TRICK_FIGURES):
                 raw = Path(__file__).with_name(PurePosixPath(name).name).read_bytes()
                 must(raw.startswith(b"<svg") and b"<script" not in raw, "Invalid Reason SVG")
             elif name in HOME_VECTORS:
@@ -431,9 +432,9 @@ def check_built(output, baseurl):
     must(implementation.math == 218 and implementation.code >= 4, "Lost MathML or code fences")
     must(all(f"section-{i}" in implementation.ids for i in range(1,22)), "Missing implementation anchors")
     reason = pages[REASON_PAGE[1]]
-    must({"data-flow", "reasoning", "semantic-output", "keys", "keywords", "weights-key"} <= set(reason.ids) and reason.math == 3
+    must({"data-flow", "tricks", "reasoning", "semantic-output", "keys", "keywords", "weights-key"} <= set(reason.ids) and reason.math == 3
          and reason.code >= 3 and all(any(link.endswith("/"+PurePosixPath(asset).name)
-                 for link in reason.images) for asset in (REASON_FIGURE, REASON_ARCHITECTURE, HELMET_FLOW)),
+                 for link in reason.images) for asset in {REASON_FIGURE, REASON_ARCHITECTURE, HELMET_FLOW} | TRICK_FIGURES),
          "Missing Reasoning/SDK anchors, semantic MathML, examples or a required figure")
     for _, url, _, _ in [*PAGES, REASON_PAGE]:
         must(all(any(link.endswith("06-reasoning.html" + anchor) for link in pages[url].hrefs)
@@ -452,7 +453,7 @@ def check_built(output, baseurl):
                 images.add(target)
             if u.fragment and target in pages:
                 must(unquote(u.fragment) in pages[target].ids, f"{url}: broken anchor {link}")
-    must(((SVG_OVERLAY-{BODY_VECTOR}) | {BODY_PREVIEW, BODY_CHANNEL_PREVIEW, REASON_FIGURE}) <= images and len(images) == 75,
+    must(((SVG_OVERLAY-{BODY_VECTOR}) | {BODY_PREVIEW, BODY_CHANNEL_PREVIEW, REASON_FIGURE}) <= images and len(images) == 79,
          "Missing figures or SVG overlays")
     print(f"Built Jekyll site check passed: {len(pages)} pages, {len(images)} figures, prefix {baseurl or '/'}")
 

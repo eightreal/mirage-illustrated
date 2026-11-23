@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="482" viewBox="0 0 900 482" role="img" aria-labelledby="name desc"><title id="name">02 · HConvGLU 在 Walsh 基里做带状通道混合</title><desc id="desc">它混合同一图像格的 512 个通道，不是扫描图像上的 65 个位置。</desc><defs><marker id="a" viewBox="0 0 9 9" markerWidth="7" markerHeight="7" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9z" fill="#4f6d87"/></marker><style>text{fill:#14334e;font-family:"Noto Sans CJK SC","PingFang SC","Microsoft YaHei",sans-serif}</style></defs>
+<rect x="1" y="1" width="898" height="480" fill="#f4f8fc" stroke="#ceddec" rx="18" stroke-width="1.55"/>
+<text x="27" y="48" font-size="29" font-weight="700">02 · HConvGLU 在 Walsh 基里做带状通道混合</text>
+<text x="28" y="81" font-size="17">它混合同一图像格的 512 个通道，不是扫描图像上的 65 个位置。</text>
+<rect x="58" y="128" width="13" height="13" fill="#704a9f" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="73" y="128" width="13" height="13" fill="#704a9f" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="88" y="128" width="13" height="13" fill="#704a9f" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="103" y="128" width="13" height="13" fill="#704a9f" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="118" y="128" width="13" height="13" fill="#704a9f" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="133" y="128" width="13" height="13" fill="#704a9f" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="58" y="143" width="13" height="13" fill="#704a9f" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="73" y="143" width="13" height="13" fill="#704a9f" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="88" y="143" width="13" height="13" fill="#704a9f" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="103" y="143" width="13" height="13" fill="#704a9f" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="118" y="143" width="13" height="13" fill="#704a9f" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="133" y="143" width="13" height="13" fill="#704a9f" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="58" y="158" width="13" height="13" fill="#704a9f" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="73" y="158" width="13" height="13" fill="#704a9f" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="88" y="158" width="13" height="13" fill="#704a9f" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="103" y="158" width="13" height="13" fill="#704a9f" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="118" y="158" width="13" height="13" fill="#704a9f" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="133" y="158" width="13" height="13" fill="#704a9f" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="58" y="173" width="13" height="13" fill="#704a9f" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="73" y="173" width="13" height="13" fill="#704a9f" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="88" y="173" width="13" height="13" fill="#704a9f" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="103" y="173" width="13" height="13" fill="#704a9f" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="118" y="173" width="13" height="13" fill="#704a9f" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="133" y="173" width="13" height="13" fill="#704a9f" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="58" y="188" width="13" height="13" fill="#704a9f" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="73" y="188" width="13" height="13" fill="#704a9f" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="88" y="188" width="13" height="13" fill="#704a9f" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="103" y="188" width="13" height="13" fill="#704a9f" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="118" y="188" width="13" height="13" fill="#704a9f" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="133" y="188" width="13" height="13" fill="#704a9f" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="58" y="203" width="13" height="13" fill="#704a9f" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="73" y="203" width="13" height="13" fill="#704a9f" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="88" y="203" width="13" height="13" fill="#704a9f" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="103" y="203" width="13" height="13" fill="#704a9f" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="118" y="203" width="13" height="13" fill="#704a9f" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="133" y="203" width="13" height="13" fill="#704a9f" stroke="none" rx="1" stroke-width="1.55"/>
+<text x="47" y="239" font-size="17" font-weight="700">稠密：512 × 512</text>
+<rect x="276" y="128" width="13" height="13" fill="#147665" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="291" y="128" width="13" height="13" fill="#147665" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="306" y="128" width="13" height="13" fill="#e7f7f1" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="321" y="128" width="13" height="13" fill="#e7f7f1" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="336" y="128" width="13" height="13" fill="#e7f7f1" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="351" y="128" width="13" height="13" fill="#e7f7f1" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="276" y="143" width="13" height="13" fill="#147665" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="291" y="143" width="13" height="13" fill="#147665" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="306" y="143" width="13" height="13" fill="#147665" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="321" y="143" width="13" height="13" fill="#e7f7f1" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="336" y="143" width="13" height="13" fill="#e7f7f1" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="351" y="143" width="13" height="13" fill="#e7f7f1" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="276" y="158" width="13" height="13" fill="#e7f7f1" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="291" y="158" width="13" height="13" fill="#147665" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="306" y="158" width="13" height="13" fill="#147665" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="321" y="158" width="13" height="13" fill="#147665" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="336" y="158" width="13" height="13" fill="#e7f7f1" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="351" y="158" width="13" height="13" fill="#e7f7f1" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="276" y="173" width="13" height="13" fill="#e7f7f1" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="291" y="173" width="13" height="13" fill="#e7f7f1" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="306" y="173" width="13" height="13" fill="#147665" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="321" y="173" width="13" height="13" fill="#147665" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="336" y="173" width="13" height="13" fill="#147665" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="351" y="173" width="13" height="13" fill="#e7f7f1" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="276" y="188" width="13" height="13" fill="#e7f7f1" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="291" y="188" width="13" height="13" fill="#e7f7f1" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="306" y="188" width="13" height="13" fill="#e7f7f1" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="321" y="188" width="13" height="13" fill="#147665" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="336" y="188" width="13" height="13" fill="#147665" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="351" y="188" width="13" height="13" fill="#147665" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="276" y="203" width="13" height="13" fill="#e7f7f1" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="291" y="203" width="13" height="13" fill="#e7f7f1" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="306" y="203" width="13" height="13" fill="#e7f7f1" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="321" y="203" width="13" height="13" fill="#e7f7f1" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="336" y="203" width="13" height="13" fill="#147665" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="351" y="203" width="13" height="13" fill="#147665" stroke="none" rx="1" stroke-width="1.55"/>
+<text x="263" y="239" font-size="17" font-weight="700">单个学习带：512 × 65</text>
+<text x="460" y="152" font-size="18" font-weight="700">真正的带宽是 65 个通道：</text>
+<text x="460" y="180" font-size="17">中心通道 + 左右各 32 个；越界补零。</text>
+<text x="460" y="209" font-size="16">示意图的矩阵缩画；不能用格子数反推参数。</text>
+<rect x="30" y="308" width="177" height="68" fill="#eaf3ff" stroke="#2562a2" rx="9" stroke-width="1.55"/>
+<text x="118.5" y="335" font-size="19" font-weight="700" text-anchor="middle">固定 Walsh</text>
+<text x="118.5" y="359" font-size="15" text-anchor="middle">将 x 转为 u</text>
+<rect x="267" y="269" width="206" height="65" fill="#f1eafe" stroke="#704a9f" rx="9" stroke-width="1.55"/>
+<text x="370.0" y="296" font-size="19" font-weight="700" text-anchor="middle">学习带 B_g ＋ b</text>
+<text x="370.0" y="320" font-size="15" text-anchor="middle">接 GELU 得门支 g</text>
+<rect x="267" y="374" width="206" height="65" fill="#e7f7f1" stroke="#147665" rx="9" stroke-width="1.55"/>
+<text x="370.0" y="401" font-size="19" font-weight="700" text-anchor="middle">学习带 B_v</text>
+<text x="370.0" y="425" font-size="15" text-anchor="middle">值支 v</text>
+<polyline points="212,341 236,341 236,302 258,302" fill="none" stroke="#4f6d87" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#a)"/>
+<polyline points="236,341 236,405 258,405" fill="none" stroke="#4f6d87" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#a)"/>
+<rect x="520" y="308" width="126" height="68" fill="#fff1d9" stroke="#9b510b" rx="9" stroke-width="1.55"/>
+<text x="583.0" y="335" font-size="19" font-weight="700" text-anchor="middle">逐元素乘</text>
+<text x="583.0" y="359" font-size="15" text-anchor="middle">g ⊙ v</text>
+<polyline points="478,302 504,302 504,329 514,329" fill="none" stroke="#4f6d87" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#a)"/>
+<polyline points="478,405 504,405 504,355 514,355" fill="none" stroke="#4f6d87" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#a)"/>
+<polyline points="652,341 677,341" fill="none" stroke="#4f6d87" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#a)"/>
+<rect x="686" y="308" width="184" height="68" fill="#eaf3ff" stroke="#2562a2" rx="9" stroke-width="1.55"/>
+<text x="778.0" y="335" font-size="19" font-weight="700" text-anchor="middle">学习带 B_o</text>
+<text x="778.0" y="359" font-size="15" text-anchor="middle">再做逆 Walsh</text>
+<text x="27" y="462" font-size="15">三条学习带共 3 × 512 × 65 个权重；门支另有偏置。固定 Walsh 不增加学习参数。</text>
+</svg>

@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="480" viewBox="0 0 900 480" role="img" aria-labelledby="name desc"><title id="name">01 · 粗网格处理全局，细网格处理定位</title><desc id="desc">同一张安全帽图：不在 64² 网格跑这组全局 Attention；细节由 Stem 旁路补足。</desc><defs><marker id="a" viewBox="0 0 9 9" markerWidth="7" markerHeight="7" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9z" fill="#4f6d87"/></marker><style>text{fill:#14334e;font-family:"Noto Sans CJK SC","PingFang SC","Microsoft YaHei",sans-serif}</style></defs>
+<rect x="1" y="1" width="898" height="478" fill="#f4f8fc" stroke="#ceddec" rx="18" stroke-width="1.55"/>
+<text x="27" y="48" font-size="29" font-weight="700">01 · 粗网格处理全局，细网格处理定位</text>
+<text x="28" y="81" font-size="17">同一张安全帽图：不在 64² 网格跑这组全局 Attention；细节由 Stem 旁路补足。</text>
+<rect x="38" y="120" width="13" height="13" fill="#147665" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="53" y="120" width="13" height="13" fill="#e7f7f1" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="68" y="120" width="13" height="13" fill="#e7f7f1" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="83" y="120" width="13" height="13" fill="#147665" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="98" y="120" width="13" height="13" fill="#e7f7f1" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="38" y="135" width="13" height="13" fill="#e7f7f1" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="53" y="135" width="13" height="13" fill="#e7f7f1" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="68" y="135" width="13" height="13" fill="#147665" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="83" y="135" width="13" height="13" fill="#e7f7f1" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="98" y="135" width="13" height="13" fill="#e7f7f1" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="38" y="150" width="13" height="13" fill="#e7f7f1" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="53" y="150" width="13" height="13" fill="#147665" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="68" y="150" width="13" height="13" fill="#e7f7f1" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="83" y="150" width="13" height="13" fill="#e7f7f1" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="98" y="150" width="13" height="13" fill="#147665" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="38" y="165" width="13" height="13" fill="#147665" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="53" y="165" width="13" height="13" fill="#e7f7f1" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="68" y="165" width="13" height="13" fill="#e7f7f1" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="83" y="165" width="13" height="13" fill="#147665" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="98" y="165" width="13" height="13" fill="#e7f7f1" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="38" y="180" width="13" height="13" fill="#e7f7f1" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="53" y="180" width="13" height="13" fill="#e7f7f1" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="68" y="180" width="13" height="13" fill="#147665" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="83" y="180" width="13" height="13" fill="#e7f7f1" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="98" y="180" width="13" height="13" fill="#e7f7f1" stroke="none" rx="1" stroke-width="1.55"/>
+<text x="35" y="217" font-size="17" font-weight="700">256 图像格</text>
+<rect x="145" y="132" width="12" height="12" fill="#704a9f" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="145" y="146" width="12" height="12" fill="#704a9f" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="145" y="160" width="12" height="12" fill="#704a9f" stroke="none" rx="1" stroke-width="1.55"/>
+<rect x="145" y="174" width="12" height="12" fill="#704a9f" stroke="none" rx="1" stroke-width="1.55"/>
+<text x="131" y="217" font-size="17" font-weight="700">4 R</text>
+<polyline points="179,160 221,160" fill="none" stroke="#4f6d87" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#a)"/>
+<rect x="228" y="127" width="251" height="65" fill="#eaf3ff" stroke="#2562a2" rx="9" stroke-width="1.55"/>
+<text x="353.5" y="154" font-size="19" font-weight="700" text-anchor="middle">Attention ×12</text>
+<text x="353.5" y="178" font-size="15" text-anchor="middle">输入 260 × 512</text>
+<polyline points="483,159 535,159" fill="none" stroke="#4f6d87" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#a)"/>
+<rect x="542" y="127" width="321" height="65" fill="#f1eafe" stroke="#704a9f" rx="9" stroke-width="1.55"/>
+<text x="702.5" y="154" font-size="19" font-weight="700" text-anchor="middle">按层门控相加，保留图像格</text>
+<text x="702.5" y="178" font-size="15" text-anchor="middle">不同层同位置相加；不追加 token</text>
+<polyline points="701,197 701,226" fill="none" stroke="#4f6d87" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#a)"/>
+<rect x="561" y="233" width="280" height="65" fill="#e7f7f1" stroke="#147665" rx="9" stroke-width="1.55"/>
+<text x="701.0" y="260" font-size="19" font-weight="700" text-anchor="middle">粗图 E · 16² × 512</text>
+<text x="701.0" y="284" font-size="15" text-anchor="middle">R 不进入输出 E</text>
+<polyline points="562,265 510,265 510,342 468,342" fill="none" stroke="#4f6d87" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#a)"/>
+<rect x="242" y="310" width="221" height="67" fill="#eaf3ff" stroke="#2562a2" rx="9" stroke-width="1.55"/>
+<text x="352.5" y="337" font-size="19" font-weight="700" text-anchor="middle">第一级 FPN</text>
+<text x="352.5" y="361" font-size="15" text-anchor="middle">投影、上采样 + S16</text>
+<rect x="52" y="307" width="133" height="58" fill="#f1eafe" stroke="#704a9f" rx="9" stroke-width="1.55"/>
+<text x="118.5" y="334" font-size="19" font-weight="700" text-anchor="middle">Stem S16</text>
+<text x="118.5" y="358" font-size="15" text-anchor="middle">32² × 256</text>
+<polyline points="191,336 233,336" fill="none" stroke="#4f6d87" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#a)"/>
+<rect x="52" y="386" width="133" height="58" fill="#f1eafe" stroke="#704a9f" rx="9" stroke-width="1.55"/>
+<text x="118.5" y="413" font-size="19" font-weight="700" text-anchor="middle">Stem S8</text>
+<text x="118.5" y="437" font-size="15" text-anchor="middle">64² × 128</text>
+<rect x="242" y="384" width="221" height="62" fill="#eaf3ff" stroke="#2562a2" rx="9" stroke-width="1.55"/>
+<text x="352.5" y="411" font-size="19" font-weight="700" text-anchor="middle">第二级 FPN</text>
+<text x="352.5" y="435" font-size="15" text-anchor="middle">上采样、投影 + S8</text>
+<polyline points="191,416 233,416" fill="none" stroke="#4f6d87" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#a)"/>
+<polyline points="361,380 361,382" fill="none" stroke="#4f6d87" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#a)"/>
+<polyline points="467,415 525,415" fill="none" stroke="#4f6d87" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#a)"/>
+<rect x="531" y="384" width="312" height="62" fill="#e7f7f1" stroke="#147665" rx="9" stroke-width="1.55"/>
+<text x="687.0" y="411" font-size="19" font-weight="700" text-anchor="middle">细图 D · 64² × 128</text>
+<text x="687.0" y="435" font-size="15" text-anchor="middle">框/掩码用细网格；不是新增全局注意力</text>
+<text x="27" y="460" font-size="15">格子与向量缩画。R＝寄存 token；16² 和 64² 是空间尺寸。</text>
+</svg>
