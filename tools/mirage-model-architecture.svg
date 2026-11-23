@@ -1,9 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1190" height="960" viewBox="0 0 1190 960" role="img" aria-labelledby="title desc"><title id="title">Mirage 安全帽示例：模型结构与张量接线</title><desc id="desc">同一张安全帽照片的共享主干、Body内部、Attention序列、S16与S8跳接的FPN，以及视觉语义、空间、OCR独立输出。图中的同名端口承接长连接。</desc><defs><marker id="a" viewBox="0 0 9 9" markerWidth="7" markerHeight="7" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9z" fill="#476984"/></marker><style>text{font-family:"Noto Sans CJK SC","PingFang SC","Microsoft YaHei",sans-serif;fill:#16334b}.arr{fill:none;stroke:#476984;stroke-width:2;stroke-linejoin:round;marker-end:url(#a)}.box{stroke-width:1.65}.bg{fill:#f3f7fd}.section{fill:white;stroke:#c8dbed}.module{fill:#eaf2fd;stroke:#3975a8}.tensor{fill:white;stroke:#137b69}.port{fill:#eee9fb;stroke:#72539c}.out{fill:#fff2df;stroke:#a55008}.raw{fill:#f2effb;stroke:#72539c}</style></defs>
+<svg xmlns="http://www.w3.org/2000/svg" width="1190" height="960" viewBox="0 0 1190 960" role="img" aria-labelledby="title desc"><title id="title">Mirage 安全帽示例：模型结构与张量接线</title><desc id="desc">同一张安全帽照片的共享主干、Body内部、Attention序列、FPN与语义、空间、OCR输出。红色标记①和②分别指出 Body 与 Attention 内独立的 HConvGLU 通道混合。</desc><defs><marker id="a" viewBox="0 0 9 9" markerWidth="7" markerHeight="7" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9z" fill="#476984"/></marker><style>text{font-family:"Noto Sans CJK SC","PingFang SC","Microsoft YaHei",sans-serif;fill:#16334b}.arr{fill:none;stroke:#476984;stroke-width:2;stroke-linejoin:round;marker-end:url(#a)}.box{stroke-width:1.65}.bg{fill:#f3f7fd}.section{fill:white;stroke:#c8dbed}.module{fill:#eaf2fd;stroke:#3975a8}.tensor{fill:white;stroke:#137b69}.port{fill:#eee9fb;stroke:#72539c}.out{fill:#fff2df;stroke:#a55008}.raw{fill:#f2effb;stroke:#72539c}</style></defs>
 <rect x="0" y="0" width="1190" height="960" rx="0" class="box bg"/>
 <text x="23" y="36" font-size="30" font-weight="700">Mirage 安全帽示例　/　模型结构与张量接线</text>
 <text x="25" y="65" font-size="16">白框：张量　蓝框：网络运算　橙框：语义输出　紫色端口：同名为同一张量，省略跨区长线</text>
 <rect x="22" y="83" width="1146" height="303" rx="12" class="box section"/>
-<text x="39" y="114" font-size="22" font-weight="700">① 共享编码器　/　由图像产生粗网格 E 与 Stem 旁路</text>
+<text x="39" y="114" font-size="22" font-weight="700">① 共享编码器　/　由图像产生粗网格 E 与 Stem 旁路</text><text x="684" y="113" font-size="16" font-weight="700" style="fill:#a21d32">红框：HConvGLU 通道混合（不是 Q/K/V）</text>
 <rect x="40" y="138" width="112" height="115" rx="8" class="box tensor"/>
 <path d="M51 208h10c4-29 18-45 34-45s31 17 36 45h10v10H51z" fill="#ffcf47" stroke="#a76a11" stroke-width="2"/><rect x="89" y="190" width="25" height="13" rx="2" fill="#fff"/>
 <text x="101" y="200" font-size="9" font-weight="700" text-anchor="middle">A13</text>
@@ -94,8 +94,8 @@
 <text x="561.5" y="197.0" font-size="18" font-weight="700" text-anchor="middle">X：16² × 512</text>
 <rect x="457" y="220" width="86" height="31" rx="8" class="box module"/>
 <text x="500.0" y="241.5" font-size="18" font-weight="700" text-anchor="middle">空间门控</text>
-<rect x="564" y="220" width="102" height="31" rx="8" class="box module"/>
-<text x="615.0" y="241.5" font-size="18" font-weight="700" text-anchor="middle">通道混合</text>
+<rect x="564" y="220" width="102" height="31" rx="8" fill="#fff1f2" stroke="#b82438" stroke-width="2.4"/>
+<text x="615" y="240.5" font-size="15" font-weight="700" text-anchor="middle" style="fill:#a21d32">① HConvGLU</text>
 <path d="M500 211V217" class="arr"/>
 <path d="M547 235H559" class="arr"/>
 <text x="562" y="274" font-size="14" text-anchor="middle">两次残差；保持原形状</text>
@@ -188,7 +188,7 @@
 <rect x="909" y="215" width="7" height="7" rx="1" fill="#c5e5dd"/>
 <rect x="917" y="215" width="7" height="7" rx="1" fill="#c5e5dd"/>
 <text x="892" y="241" font-size="13" font-weight="700" text-anchor="middle">260 × 512</text>
-<text x="859" y="272" font-size="13" text-anchor="middle">移除 4 个可学习 R 的输出，只保留图像格</text>
+<text x="859" y="258" font-size="12" text-anchor="middle">移除 4 个可学习 R 的输出，只保留图像格</text><rect x="753" y="264" width="212" height="22" rx="6" fill="#fff1f2" stroke="#b82438" stroke-width="2"/><text x="859" y="279" font-size="13" font-weight="700" text-anchor="middle" style="fill:#a21d32">② 块内 HConvGLU · 逐 token</text>
 <path d="M1013 198H1033" class="arr"/>
 <rect x="1038" y="135" width="113" height="156" rx="8" class="box tensor"/>
 <text x="1094" y="161" font-size="18" font-weight="700" text-anchor="middle">粗图 E</text>
