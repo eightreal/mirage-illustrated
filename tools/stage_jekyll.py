@@ -38,7 +38,9 @@ REASON_PAGE = ("docs/06-reasoning.md", "chapters/06-reasoning.html", "reasoning"
 REASON_FIGURE = "assets/reasoning-model.svg"
 REASON_ARCHITECTURE = "assets/reasoning-architecture.svg"
 HELMET_FLOW = "assets/mirage-model-architecture.svg"
-TRICK_FIGURES = {f"assets/tricks-{name}.svg" for name in ("encoder", "mixer", "heads", "deployment")}
+TRICK_FIGURES = {f"assets/tricks-{name}.svg" for name in ("encoder", "mixer", "heads", "deployment")} | {
+    "assets/level-gate-example.svg", "assets/fpn-grid-example.svg", "assets/hconv-channel-example.svg",
+}
 META = ("config.json", "model_files.json", "tensor_manifest.json", "tensor_summary.csv",
         "toy_memory.json", "toy_model.npz", "verify_examples.py")
 CODE = ("mirage_reference.py", "decoder_ops.py", "train_toy.py", "test_reference.py",
@@ -432,7 +434,7 @@ def check_built(output, baseurl):
     must(implementation.math == 218 and implementation.code >= 4, "Lost MathML or code fences")
     must(all(f"section-{i}" in implementation.ids for i in range(1,22)), "Missing implementation anchors")
     reason = pages[REASON_PAGE[1]]
-    must({"data-flow", "tricks", "reasoning", "semantic-output", "keys", "keywords", "weights-key"} <= set(reason.ids) and reason.math == 3
+    must({"data-flow", "tricks", "level-gates", "fpn-detail", "hconv-detail", "reasoning", "semantic-output", "keys", "keywords", "weights-key"} <= set(reason.ids) and reason.math == 3
          and reason.code >= 3 and all(any(link.endswith("/"+PurePosixPath(asset).name)
                  for link in reason.images) for asset in {REASON_FIGURE, REASON_ARCHITECTURE, HELMET_FLOW} | TRICK_FIGURES),
          "Missing Reasoning/SDK anchors, semantic MathML, examples or a required figure")
@@ -453,7 +455,7 @@ def check_built(output, baseurl):
                 images.add(target)
             if u.fragment and target in pages:
                 must(unquote(u.fragment) in pages[target].ids, f"{url}: broken anchor {link}")
-    must(((SVG_OVERLAY-{BODY_VECTOR}) | {BODY_PREVIEW, BODY_CHANNEL_PREVIEW, REASON_FIGURE}) <= images and len(images) == 79,
+    must(((SVG_OVERLAY-{BODY_VECTOR}) | {BODY_PREVIEW, BODY_CHANNEL_PREVIEW, REASON_FIGURE}) <= images and len(images) == 82,
          "Missing figures or SVG overlays")
     print(f"Built Jekyll site check passed: {len(pages)} pages, {len(images)} figures, prefix {baseurl or '/'}")
 

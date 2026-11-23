@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="405" viewBox="0 0 900 405" role="img" aria-labelledby="name desc"><title id="name">最近邻示意：复制粗网格，帽沿细节来自旁路</title><desc id="desc">单通道教学：E 缩成 2×2，投影已省略；用最近邻示意上采样，并非断言原生插值。</desc><defs><marker id="a" viewBox="0 0 9 9" markerWidth="7" markerHeight="7" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9z" fill="#4f6d87"/></marker><style>text{fill:#14334e;font-family:"Noto Sans CJK SC","PingFang SC","Microsoft YaHei",sans-serif}</style></defs>
+<rect x="1" y="1" width="898" height="403" fill="#f4f8fc" stroke="#ceddec" rx="18" stroke-width="1.55"/>
+<text x="27" y="48" font-size="29" font-weight="700">最近邻示意：复制粗网格，帽沿细节来自旁路</text>
+<text x="28" y="81" font-size="17">单通道教学：E 缩成 2×2，投影已省略；用最近邻示意上采样，并非断言原生插值。</text>
+<text x="66" y="141" font-size="18" font-weight="700" text-anchor="middle">粗图 E</text>
+<rect x="30" y="167" width="34" height="34" fill="#eaf3ff" stroke="#2562a2" rx="3" stroke-width="1.55"/>
+<text x="47" y="191" font-size="17" text-anchor="middle">1</text>
+<rect x="66" y="167" width="34" height="34" fill="#eaf3ff" stroke="#2562a2" rx="3" stroke-width="1.55"/>
+<text x="83" y="191" font-size="17" text-anchor="middle">2</text>
+<rect x="30" y="203" width="34" height="34" fill="#eaf3ff" stroke="#2562a2" rx="3" stroke-width="1.55"/>
+<text x="47" y="227" font-size="17" text-anchor="middle">3</text>
+<rect x="66" y="203" width="34" height="34" fill="#eaf3ff" stroke="#2562a2" rx="3" stroke-width="1.55"/>
+<text x="83" y="227" font-size="17" text-anchor="middle">4</text>
+<polyline points="108,201 153,201" fill="none" stroke="#4f6d87" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#a)"/>
+<text x="125" y="184" font-size="16" font-weight="700" text-anchor="middle">↑2</text>
+<text x="232" y="141" font-size="18" font-weight="700" text-anchor="middle">上采样的 E</text>
+<rect x="160" y="167" width="34" height="34" fill="#eaf3ff" stroke="#2562a2" rx="3" stroke-width="1.55"/>
+<text x="177" y="191" font-size="17" text-anchor="middle">1</text>
+<rect x="196" y="167" width="34" height="34" fill="#eaf3ff" stroke="#2562a2" rx="3" stroke-width="1.55"/>
+<text x="213" y="191" font-size="17" text-anchor="middle">1</text>
+<rect x="232" y="167" width="34" height="34" fill="#eaf3ff" stroke="#2562a2" rx="3" stroke-width="1.55"/>
+<text x="249" y="191" font-size="17" text-anchor="middle">2</text>
+<rect x="268" y="167" width="34" height="34" fill="#eaf3ff" stroke="#2562a2" rx="3" stroke-width="1.55"/>
+<text x="285" y="191" font-size="17" text-anchor="middle">2</text>
+<rect x="160" y="203" width="34" height="34" fill="#eaf3ff" stroke="#2562a2" rx="3" stroke-width="1.55"/>
+<text x="177" y="227" font-size="17" text-anchor="middle">1</text>
+<rect x="196" y="203" width="34" height="34" fill="#eaf3ff" stroke="#2562a2" rx="3" stroke-width="1.55"/>
+<text x="213" y="227" font-size="17" text-anchor="middle">1</text>
+<rect x="232" y="203" width="34" height="34" fill="#fff1d9" stroke="#9b510b" rx="3" stroke-width="1.55"/>
+<text x="249" y="227" font-size="17" font-weight="700" text-anchor="middle">2</text>
+<rect x="268" y="203" width="34" height="34" fill="#eaf3ff" stroke="#2562a2" rx="3" stroke-width="1.55"/>
+<text x="285" y="227" font-size="17" text-anchor="middle">2</text>
+<rect x="160" y="239" width="34" height="34" fill="#eaf3ff" stroke="#2562a2" rx="3" stroke-width="1.55"/>
+<text x="177" y="263" font-size="17" text-anchor="middle">3</text>
+<rect x="196" y="239" width="34" height="34" fill="#eaf3ff" stroke="#2562a2" rx="3" stroke-width="1.55"/>
+<text x="213" y="263" font-size="17" text-anchor="middle">3</text>
+<rect x="232" y="239" width="34" height="34" fill="#eaf3ff" stroke="#2562a2" rx="3" stroke-width="1.55"/>
+<text x="249" y="263" font-size="17" text-anchor="middle">4</text>
+<rect x="268" y="239" width="34" height="34" fill="#eaf3ff" stroke="#2562a2" rx="3" stroke-width="1.55"/>
+<text x="285" y="263" font-size="17" text-anchor="middle">4</text>
+<rect x="160" y="275" width="34" height="34" fill="#eaf3ff" stroke="#2562a2" rx="3" stroke-width="1.55"/>
+<text x="177" y="299" font-size="17" text-anchor="middle">3</text>
+<rect x="196" y="275" width="34" height="34" fill="#eaf3ff" stroke="#2562a2" rx="3" stroke-width="1.55"/>
+<text x="213" y="299" font-size="17" text-anchor="middle">3</text>
+<rect x="232" y="275" width="34" height="34" fill="#eaf3ff" stroke="#2562a2" rx="3" stroke-width="1.55"/>
+<text x="249" y="299" font-size="17" text-anchor="middle">4</text>
+<rect x="268" y="275" width="34" height="34" fill="#eaf3ff" stroke="#2562a2" rx="3" stroke-width="1.55"/>
+<text x="285" y="299" font-size="17" text-anchor="middle">4</text>
+<text x="338" y="235" font-size="27" font-weight="700" text-anchor="middle">+</text>
+<text x="463" y="141" font-size="18" font-weight="700" text-anchor="middle">投影后 S16</text>
+<rect x="391" y="167" width="34" height="34" fill="#e7f7f1" stroke="#147665" rx="3" stroke-width="1.55"/>
+<text x="408" y="191" font-size="17" text-anchor="middle">0</text>
+<rect x="427" y="167" width="34" height="34" fill="#e7f7f1" stroke="#147665" rx="3" stroke-width="1.55"/>
+<text x="444" y="191" font-size="17" text-anchor="middle">0</text>
+<rect x="463" y="167" width="34" height="34" fill="#e7f7f1" stroke="#147665" rx="3" stroke-width="1.55"/>
+<text x="480" y="191" font-size="17" text-anchor="middle">0</text>
+<rect x="499" y="167" width="34" height="34" fill="#e7f7f1" stroke="#147665" rx="3" stroke-width="1.55"/>
+<text x="516" y="191" font-size="17" text-anchor="middle">0</text>
+<rect x="391" y="203" width="34" height="34" fill="#e7f7f1" stroke="#147665" rx="3" stroke-width="1.55"/>
+<text x="408" y="227" font-size="17" text-anchor="middle">0</text>
+<rect x="427" y="203" width="34" height="34" fill="#e7f7f1" stroke="#147665" rx="3" stroke-width="1.55"/>
+<text x="444" y="227" font-size="17" text-anchor="middle">0</text>
+<rect x="463" y="203" width="34" height="34" fill="#fff1d9" stroke="#9b510b" rx="3" stroke-width="1.55"/>
+<text x="480" y="227" font-size="17" font-weight="700" text-anchor="middle">5</text>
+<rect x="499" y="203" width="34" height="34" fill="#e7f7f1" stroke="#147665" rx="3" stroke-width="1.55"/>
+<text x="516" y="227" font-size="17" text-anchor="middle">0</text>
+<rect x="391" y="239" width="34" height="34" fill="#e7f7f1" stroke="#147665" rx="3" stroke-width="1.55"/>
+<text x="408" y="263" font-size="17" text-anchor="middle">0</text>
+<rect x="427" y="239" width="34" height="34" fill="#e7f7f1" stroke="#147665" rx="3" stroke-width="1.55"/>
+<text x="444" y="263" font-size="17" text-anchor="middle">0</text>
+<rect x="463" y="239" width="34" height="34" fill="#e7f7f1" stroke="#147665" rx="3" stroke-width="1.55"/>
+<text x="480" y="263" font-size="17" text-anchor="middle">0</text>
+<rect x="499" y="239" width="34" height="34" fill="#e7f7f1" stroke="#147665" rx="3" stroke-width="1.55"/>
+<text x="516" y="263" font-size="17" text-anchor="middle">0</text>
+<rect x="391" y="275" width="34" height="34" fill="#e7f7f1" stroke="#147665" rx="3" stroke-width="1.55"/>
+<text x="408" y="299" font-size="17" text-anchor="middle">0</text>
+<rect x="427" y="275" width="34" height="34" fill="#e7f7f1" stroke="#147665" rx="3" stroke-width="1.55"/>
+<text x="444" y="299" font-size="17" text-anchor="middle">0</text>
+<rect x="463" y="275" width="34" height="34" fill="#e7f7f1" stroke="#147665" rx="3" stroke-width="1.55"/>
+<text x="480" y="299" font-size="17" text-anchor="middle">0</text>
+<rect x="499" y="275" width="34" height="34" fill="#e7f7f1" stroke="#147665" rx="3" stroke-width="1.55"/>
+<text x="516" y="299" font-size="17" text-anchor="middle">0</text>
+<text x="563" y="235" font-size="26" font-weight="700" text-anchor="middle">=</text>
+<text x="753" y="141" font-size="18" font-weight="700" text-anchor="middle">相加后（残差块之前）</text>
+<rect x="681" y="167" width="34" height="34" fill="#f1eafe" stroke="#704a9f" rx="3" stroke-width="1.55"/>
+<text x="698" y="191" font-size="17" text-anchor="middle">1</text>
+<rect x="717" y="167" width="34" height="34" fill="#f1eafe" stroke="#704a9f" rx="3" stroke-width="1.55"/>
+<text x="734" y="191" font-size="17" text-anchor="middle">1</text>
+<rect x="753" y="167" width="34" height="34" fill="#f1eafe" stroke="#704a9f" rx="3" stroke-width="1.55"/>
+<text x="770" y="191" font-size="17" text-anchor="middle">2</text>
+<rect x="789" y="167" width="34" height="34" fill="#f1eafe" stroke="#704a9f" rx="3" stroke-width="1.55"/>
+<text x="806" y="191" font-size="17" text-anchor="middle">2</text>
+<rect x="681" y="203" width="34" height="34" fill="#f1eafe" stroke="#704a9f" rx="3" stroke-width="1.55"/>
+<text x="698" y="227" font-size="17" text-anchor="middle">1</text>
+<rect x="717" y="203" width="34" height="34" fill="#f1eafe" stroke="#704a9f" rx="3" stroke-width="1.55"/>
+<text x="734" y="227" font-size="17" text-anchor="middle">1</text>
+<rect x="753" y="203" width="34" height="34" fill="#fff1d9" stroke="#9b510b" rx="3" stroke-width="1.55"/>
+<text x="770" y="227" font-size="17" font-weight="700" text-anchor="middle">7</text>
+<rect x="789" y="203" width="34" height="34" fill="#f1eafe" stroke="#704a9f" rx="3" stroke-width="1.55"/>
+<text x="806" y="227" font-size="17" text-anchor="middle">2</text>
+<rect x="681" y="239" width="34" height="34" fill="#f1eafe" stroke="#704a9f" rx="3" stroke-width="1.55"/>
+<text x="698" y="263" font-size="17" text-anchor="middle">3</text>
+<rect x="717" y="239" width="34" height="34" fill="#f1eafe" stroke="#704a9f" rx="3" stroke-width="1.55"/>
+<text x="734" y="263" font-size="17" text-anchor="middle">3</text>
+<rect x="753" y="239" width="34" height="34" fill="#f1eafe" stroke="#704a9f" rx="3" stroke-width="1.55"/>
+<text x="770" y="263" font-size="17" text-anchor="middle">4</text>
+<rect x="789" y="239" width="34" height="34" fill="#f1eafe" stroke="#704a9f" rx="3" stroke-width="1.55"/>
+<text x="806" y="263" font-size="17" text-anchor="middle">4</text>
+<rect x="681" y="275" width="34" height="34" fill="#f1eafe" stroke="#704a9f" rx="3" stroke-width="1.55"/>
+<text x="698" y="299" font-size="17" text-anchor="middle">3</text>
+<rect x="717" y="275" width="34" height="34" fill="#f1eafe" stroke="#704a9f" rx="3" stroke-width="1.55"/>
+<text x="734" y="299" font-size="17" text-anchor="middle">3</text>
+<rect x="753" y="275" width="34" height="34" fill="#f1eafe" stroke="#704a9f" rx="3" stroke-width="1.55"/>
+<text x="770" y="299" font-size="17" text-anchor="middle">4</text>
+<rect x="789" y="275" width="34" height="34" fill="#f1eafe" stroke="#704a9f" rx="3" stroke-width="1.55"/>
+<text x="806" y="299" font-size="17" text-anchor="middle">4</text>
+<text x="33" y="353" font-size="18" font-weight="700">第 2 行第 3 列：粗图插值为 2，旁路提供 5，逐格相加到 7。</text>
+<text x="27" y="385" font-size="15">真实第一级 16²→32²；第二级 32²→64²，再与 S8 投影结果逐格相加。</text>
+</svg>
