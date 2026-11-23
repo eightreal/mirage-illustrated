@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="740" height="935" viewBox="0 0 740 935" role="img" aria-labelledby="heading about">
+<title id="heading">Mirage 的视觉 Keys 和 reasoning 从哪里来</title>
+<desc id="about">粗特征和区域槽形成视觉 memory，各解码层分别将它投影成 K 和 V。当前位置的文本状态产生 Q。Q 和 K 打分，从 V 取加权内容，原有语义解码器逐 token 生成文本，由运行时组装成 reasoning 字段。OCR 字符串独立进入 JSON。</desc>
+<defs>
+  <marker id="arrow" viewBox="0 0 10 10" markerWidth="6" markerHeight="6" refX="9" refY="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#526f89"/></marker>
+  <style>
+    text {font-family:"Noto Sans CJK SC","PingFang SC","Microsoft YaHei",sans-serif;fill:#142e46}
+    .muted{fill:#48657e}.title{font-weight:700;font-size:31px}
+    .head{font-weight:700;font-size:22px}.caption{font-size:18px}
+    .tensor{fill:#fff;stroke:#007568;stroke-width:2}
+    .network{fill:#e5effe;stroke:#175a9e;stroke-width:2}
+    .textout{fill:#fff0df;stroke:#a85917;stroke-width:2}
+    .arr{fill:none;stroke:#526f89;stroke-width:2.4;stroke-linejoin:round;marker-end:url(#arrow)}
+  </style>
+</defs>
+<rect x="1" y="1" width="738" height="933" rx="21" fill="#f3f7fc" stroke="#cbdded"/>
+<text x="26" y="37" font-size="15" font-weight="700" fill="#175a9e">MIRAGE · REASONING / CROSS-ATTENTION</text>
+<text x="25" y="81" class="title">先读图，再逐 token 生成</text>
+<text x="26" y="113" class="caption muted">只展开与 reasoning 有关的计算；取一层视觉交叉注意力。</text>
+<rect x="22" y="139" width="696" height="454" rx="15" fill="#fff" stroke="#cbd9e7"/>
+<text x="38" y="171" class="head">01　Q 匹配 Keys，分数用于读取 Values</text>
+<rect x="41" y="193" width="324" height="71" rx="8" class="tensor"/>
+<text x="203" y="222" text-anchor="middle" class="head">视觉记忆 M</text>
+<text x="203" y="248" text-anchor="middle" class="caption">E 的 256 格 ＋ 已构造的区域槽</text>
+<rect x="419" y="193" width="278" height="71" rx="8" class="tensor"/>
+<text x="558" y="222" text-anchor="middle" class="head">当前文本状态 xₜ</text>
+<text x="558" y="248" text-anchor="middle" class="caption">与已生成前缀有关</text>
+<path d="M203 265V281H115V303" class="arr"/>
+<path d="M203 281H289V303" class="arr"/>
+<path d="M558 266V303" class="arr"/>
+<rect x="47" y="310" width="136" height="60" rx="8" class="network"/>
+<text x="115" y="346" text-anchor="middle" class="head">V 投影</text>
+<rect x="220" y="310" width="139" height="60" rx="8" class="network"/>
+<text x="290" y="346" text-anchor="middle" class="head">K 投影</text>
+<rect x="488" y="310" width="140" height="60" rx="8" class="network"/>
+<text x="558" y="346" text-anchor="middle" class="head">Q 投影</text>
+<text x="115" y="397" text-anchor="middle" class="caption">vⱼ：64 维</text>
+<text x="289" y="397" text-anchor="middle" class="caption">kⱼ：48 维</text>
+<text x="558" y="397" text-anchor="middle" class="caption">qₜ：48 维</text>
+<path d="M115 405V534H204" class="arr"/>
+<path d="M289 405V418H359V438" class="arr"/>
+<path d="M558 405V418H487V438" class="arr"/>
+<rect x="201" y="443" width="411" height="60" rx="8" class="network"/>
+<text x="406" y="467" text-anchor="middle" class="head">Q · K / √48</text>
+<text x="406" y="489" text-anchor="middle" class="caption">掩掉无效位置，再 softmax</text>
+<path d="M406 506V513" class="arr"/>
+<rect x="211" y="520" width="391" height="50" rx="8" class="tensor"/>
+<text x="407" y="550" text-anchor="middle" class="head">加权读出的视觉内容 Σⱼ αⱼvⱼ</text>
+<rect x="22" y="617" width="696" height="271" rx="15" fill="#fff" stroke="#cbd9e7"/>
+<text x="38" y="650" class="head">02　同一个解码器输出文本；运行时组装 JSON</text>
+<path d="M406 574V607H30V673H185V680" class="arr"/>
+<rect x="42" y="687" width="287" height="63" rx="8" class="network"/>
+<text x="185" y="715" text-anchor="middle" class="head">语义 Decoder ×8</text>
+<text x="185" y="739" text-anchor="middle" class="caption">读图结果写回本层；逐步预测</text>
+<path d="M185 753V777" class="arr"/>
+<rect x="42" y="784" width="287" height="67" rx="8" class="textout"/>
+<text x="185" y="812" text-anchor="middle" class="head">生成的语义文本</text>
+<text x="185" y="837" text-anchor="middle" class="caption">包括短 reasoning 文本</text>
+<rect x="425" y="687" width="268" height="63" rx="8" class="textout"/>
+<text x="559" y="715" text-anchor="middle" class="head">OCR 字符串</text>
+<text x="559" y="739" text-anchor="middle" class="caption">旁路，不回流 Decoder</text>
+<path d="M559 753V777" class="arr"/>
+<path d="M333 818H416" class="arr"/>
+<rect x="425" y="784" width="268" height="67" rx="8" class="network"/>
+<text x="559" y="812" text-anchor="middle" class="head">运行时组装</text>
+<text x="559" y="837" text-anchor="middle" class="caption">JSON 中的 reasoning 等字段</text>
+<text x="28" y="915" class="caption muted">白框＝张量　·　蓝底＝运算模块　·　橙底＝生成或读出的文本</text>
+</svg>

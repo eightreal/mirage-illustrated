@@ -34,6 +34,8 @@ PAGES = [
     ("code/README.md", "code/README.html", "code", "参考代码"),
     ("upstream/README.md", "upstream/README.html", "upstream", "官方 SDK"),
 ]
+REASON_PAGE = ("docs/06-reasoning.md", "chapters/06-reasoning.html", "reasoning", "06 Reasoning 与 Keys")
+REASON_FIGURE = "assets/reasoning-model.svg"
 META = ("config.json", "model_files.json", "tensor_manifest.json", "tensor_summary.csv",
         "toy_memory.json", "toy_model.npz", "verify_examples.py")
 CODE = ("mirage_reference.py", "decoder_ops.py", "train_toy.py", "test_reference.py",
@@ -42,7 +44,7 @@ SDK = ("LICENSE-Apache-2.0.txt", "cactus-sdk-bb822a3.tar.gz",
        "source/LICENSE", "source/cactus/agent/audio.py", "source/cactus/agent/mirage.py",
        "source/cactus/agent/runtime.py", "source/cactus/cli/parser.py",
        "source/cactus/cli/vision.py", "source/tests/test_mirage.py")
-ROUTES = {source: url for source, url, *_ in PAGES}
+ROUTES = {source: url for source, url, *_ in [*PAGES, REASON_PAGE]}
 STYLE_SNIP = re.compile(r"<style[^>]*>(.*?)</style>", re.S)
 MATH = re.compile(r"<math\b[^>]*>.*?</math>", re.S)
 ANNOTATION = re.compile(r'<annotation encoding="application/x-tex">(.*?)</annotation>', re.S)
@@ -65,7 +67,7 @@ BODY_VIEWS = {
     BODY_CHANNEL_PREVIEW: (1275, 486, "第二个残差：通道混合和 GRN"),
 }
 HOME_VECTORS = {"assets/overview-encoder.svg", "assets/overview-evidence.svg"}
-SVG_OVERLAY = HOME_VECTORS | {
+SVG_OVERLAY = HOME_VECTORS | {REASON_FIGURE,
     BODY_VECTOR,
     "assets/15_block_dimensions.svg",
     "assets/16_stem_backbone.svg",
@@ -288,6 +290,11 @@ def stage(zip_path, output, layout_path, bundled=False, baseurl=""):
                     "单块由两段带残差的运算组成：先做空间门控混合，再做 HConvGLU 通道混合及 GRN。",
                     1,
                 )
+            if key in {"architecture", "implementation", "api"}:
+                raw = (
+                    "> 专题图解：[Reasoning 如何生成](06-reasoning.md#reasoning)"
+                    " · [视觉 Keys 是什么](06-reasoning.md#keys)\n\n" + raw
+                )
             converted = update_markdown_links(raw, source, public, found)
             converted = add_downloads(converted, key, bundled, public, found)
             current_fences = [m.group(0) for m in TOKEN.finditer(converted) if m.group("fence")]
@@ -303,6 +310,17 @@ def stage(zip_path, output, layout_path, bundled=False, baseurl=""):
             if public.endswith("/README.html"):
                 input_path = pp.dirname(public) + "/page.md"
             write(stage_root, input_path, body)
+        reason_text = Path(__file__).with_name("reasoning.md").read_text(encoding="utf-8")
+        must("{%" not in reason_text and "{{" not in reason_text, "Reason page has Liquid syntax")
+        reason_source, reason_public, reason_key, _ = REASON_PAGE
+        reason_text = update_markdown_links(reason_text, reason_source, reason_public, found)
+        reason_title = "Mirage 的 Reasoning 与视觉 Keys"
+        reason_body = ("---\nlayout: default\n"
+                       f"title: {json.dumps(reason_title, ensure_ascii=False)}\n"
+                       f"permalink: /{reason_public}\nequation_key: {reason_key}\n---\n"
+                       f"# {reason_title}\n\n" + reason_text)
+        page_contents[reason_public] = reason_body
+        write(stage_root, reason_public.removesuffix(".html") + ".md", reason_body)
         urls = set(page_contents)
         static = {target for _,target,_ in found if target not in urls}
         must(all(not anchor or (target in urls and
@@ -324,6 +342,9 @@ def stage(zip_path, output, layout_path, bundled=False, baseurl=""):
                 y, height, title = BODY_VIEWS[name]
                 raw = raw.replace(old_view, f'height="{height}" viewBox="0 {y} 720 {height}"'.encode(), 1)
                 raw = re.sub(rb"<title>.*?</title>", ("<title>" + title + "</title>").encode("utf-8"), raw, count=1)
+            elif name == REASON_FIGURE:
+                raw = Path(__file__).with_name("reasoning-model.svg").read_bytes()
+                must(raw.startswith(b"<svg") and b"<script" not in raw, "Invalid Reason SVG")
             elif name in HOME_VECTORS:
                 raw = home[name].encode("utf-8")
             else:
@@ -335,7 +356,7 @@ def stage(zip_path, output, layout_path, bundled=False, baseurl=""):
             write(stage_root, name, raw)
         dump(stage_root, "_data/mirage_equations.json", math_data)
         dump(stage_root, "_data/mirage_navigation.json",
-             [{"url": "/"+public, "label": label} for _,public,_,label in PAGES])
+             [{"url": "/"+public, "label": label} for _,public,_,label in [*PAGES, REASON_PAGE]])
         write(stage_root, "_config.yml", CONFIG + f"baseurl: {json.dumps(baseurl)}\n")
         write(stage_root, "_layouts/default.html", layout)
         css = archive.read("source/tools/offline_style.html").decode("utf-8")
@@ -343,7 +364,7 @@ def stage(zip_path, output, layout_path, bundled=False, baseurl=""):
         must(snippet, "No CSS in prior style fragment")
         write(stage_root, "site.css", snippet.group(1).strip()+"\n"+EXTRA_CSS)
         eq_count = sum(map(len, math_data.values()))
-        must(eq_count and len(urls) == 8, "Missing pages or math")
+        must(eq_count and len(urls) == 9, "Missing pages or math")
         for key, entries in math_data.items():
             source = next(public for _,public,k,_ in PAGES if k == key)
             for record in entries:
@@ -388,7 +409,7 @@ def check_built(output, baseurl):
     from urllib.parse import urljoin
     prefix = "https://pages-test.invalid" + baseurl + "/"
     pages = {}
-    for _, url, _, _ in PAGES:
+    for _, url, _, _ in [*PAGES, REASON_PAGE]:
         path = output / url
         text = path.read_text(encoding="utf-8")
         must(not re.search(r"MIRAGEMATH[A-Z]+Q\d+END|\{%|\{\{ content", text),
@@ -407,6 +428,15 @@ def check_built(output, baseurl):
          and any(link.endswith("/impl-05-body.svg") for link in implementation.hrefs), "Missing Body in implementation")
     must(implementation.math == 218 and implementation.code >= 4, "Lost MathML or code fences")
     must(all(f"section-{i}" in implementation.ids for i in range(1,22)), "Missing implementation anchors")
+    reason = pages[REASON_PAGE[1]]
+    must({"reasoning", "keys", "reasoning-ocr"} <= set(reason.ids) and reason.math == 2
+         and reason.code == 1 and any(link.endswith("/reasoning-model.svg") for link in reason.images),
+         "Missing reasoning anchors, MathML, Python example or figure")
+    for _, url, key, _ in PAGES:
+        expected = ("#reasoning", "#keys") if key in {"architecture", "implementation", "api"} else ("",)
+        must(all(any(link.endswith("/06-reasoning.html" + anchor) for link in pages[url].hrefs)
+                 or any(link.endswith("06-reasoning.html" + anchor) for link in pages[url].hrefs)
+                 for anchor in expected), f"{url}: missing reasoning navigation")
     images = set()
     for url, page in pages.items():
         for link in page.hrefs:
@@ -421,7 +451,7 @@ def check_built(output, baseurl):
                 images.add(target)
             if u.fragment and target in pages:
                 must(unquote(u.fragment) in pages[target].ids, f"{url}: broken anchor {link}")
-    must(((SVG_OVERLAY-{BODY_VECTOR}) | {BODY_PREVIEW, BODY_CHANNEL_PREVIEW}) <= images and len(images) == 72,
+    must(((SVG_OVERLAY-{BODY_VECTOR}) | {BODY_PREVIEW, BODY_CHANNEL_PREVIEW, REASON_FIGURE}) <= images and len(images) == 73,
          "Missing figures or SVG overlays")
     print(f"Built Jekyll site check passed: {len(pages)} pages, {len(images)} figures, prefix {baseurl or '/'}")
 
