@@ -36,6 +36,7 @@ PAGES = [
 ]
 REASON_PAGE = ("docs/06-reasoning.md", "chapters/06-reasoning.html", "reasoning", "06 Describe 参数与 Reasoning")
 REASON_FIGURE = "assets/reasoning-model.svg"
+REASON_ARCHITECTURE = "assets/reasoning-architecture.svg"
 META = ("config.json", "model_files.json", "tensor_manifest.json", "tensor_summary.csv",
         "toy_memory.json", "toy_model.npz", "verify_examples.py")
 CODE = ("mirage_reference.py", "decoder_ops.py", "train_toy.py", "test_reference.py",
@@ -67,7 +68,7 @@ BODY_VIEWS = {
     BODY_CHANNEL_PREVIEW: (1275, 486, "第二个残差：通道混合和 GRN"),
 }
 HOME_VECTORS = {"assets/overview-encoder.svg", "assets/overview-evidence.svg"}
-SVG_OVERLAY = HOME_VECTORS | {REASON_FIGURE,
+SVG_OVERLAY = HOME_VECTORS | {REASON_FIGURE, REASON_ARCHITECTURE,
     BODY_VECTOR,
     "assets/15_block_dimensions.svg",
     "assets/16_stem_backbone.svg",
@@ -314,7 +315,7 @@ def stage(zip_path, output, layout_path, bundled=False, baseurl=""):
         must("{%" not in reason_text and "{{" not in reason_text, "Reason page has Liquid syntax")
         reason_source, reason_public, reason_key, _ = REASON_PAGE
         reason_text = update_markdown_links(reason_text, reason_source, reason_public, found)
-        reason_title = "Mirage SDK：Describe 的 key 与 Reasoning"
+        reason_title = "Mirage：Reasoning 原理与 SDK Describe 的 key"
         reason_body = ("---\nlayout: default\n"
                        f"title: {json.dumps(reason_title, ensure_ascii=False)}\n"
                        f"permalink: /{reason_public}\nequation_key: {reason_key}\n---\n"
@@ -342,8 +343,8 @@ def stage(zip_path, output, layout_path, bundled=False, baseurl=""):
                 y, height, title = BODY_VIEWS[name]
                 raw = raw.replace(old_view, f'height="{height}" viewBox="0 {y} 720 {height}"'.encode(), 1)
                 raw = re.sub(rb"<title>.*?</title>", ("<title>" + title + "</title>").encode("utf-8"), raw, count=1)
-            elif name == REASON_FIGURE:
-                raw = Path(__file__).with_name("reasoning-model.svg").read_bytes()
+            elif name in {REASON_FIGURE, REASON_ARCHITECTURE}:
+                raw = Path(__file__).with_name(PurePosixPath(name).name).read_bytes()
                 must(raw.startswith(b"<svg") and b"<script" not in raw, "Invalid Reason SVG")
             elif name in HOME_VECTORS:
                 raw = home[name].encode("utf-8")
@@ -429,14 +430,13 @@ def check_built(output, baseurl):
     must(implementation.math == 218 and implementation.code >= 4, "Lost MathML or code fences")
     must(all(f"section-{i}" in implementation.ids for i in range(1,22)), "Missing implementation anchors")
     reason = pages[REASON_PAGE[1]]
-    must({"reasoning", "keys", "keywords"} <= set(reason.ids) and reason.math == 1
-         and reason.code >= 3 and any(link.endswith("/reasoning-model.svg") for link in reason.images),
-         "Missing describe anchors, semantic MathML, code example or figure")
-    for _, url, key, _ in PAGES:
-        expected = ("#reasoning", "#keys") if key in {"architecture", "implementation", "api"} else ("",)
-        must(all(any(link.endswith("/06-reasoning.html" + anchor) for link in pages[url].hrefs)
-                 or any(link.endswith("06-reasoning.html" + anchor) for link in pages[url].hrefs)
-                 for anchor in expected), f"{url}: missing reasoning navigation")
+    must({"reasoning", "keys", "keywords"} <= set(reason.ids) and reason.math == 3
+         and reason.code >= 3 and all(any(link.endswith("/"+PurePosixPath(asset).name)
+                 for link in reason.images) for asset in (REASON_FIGURE, REASON_ARCHITECTURE)),
+         "Missing Reasoning/SDK anchors, semantic MathML, examples or one of the two figures")
+    for _, url, _, _ in [*PAGES, REASON_PAGE]:
+        must(all(any(link.endswith("06-reasoning.html" + anchor) for link in pages[url].hrefs)
+                 for anchor in ("#reasoning", "#keys")), f"{url}: missing Reasoning/SDK Keys navigation")
     images = set()
     for url, page in pages.items():
         for link in page.hrefs:
@@ -451,7 +451,7 @@ def check_built(output, baseurl):
                 images.add(target)
             if u.fragment and target in pages:
                 must(unquote(u.fragment) in pages[target].ids, f"{url}: broken anchor {link}")
-    must(((SVG_OVERLAY-{BODY_VECTOR}) | {BODY_PREVIEW, BODY_CHANNEL_PREVIEW, REASON_FIGURE}) <= images and len(images) == 73,
+    must(((SVG_OVERLAY-{BODY_VECTOR}) | {BODY_PREVIEW, BODY_CHANNEL_PREVIEW, REASON_FIGURE}) <= images and len(images) == 74,
          "Missing figures or SVG overlays")
     print(f"Built Jekyll site check passed: {len(pages)} pages, {len(images)} figures, prefix {baseurl or '/'}")
 
