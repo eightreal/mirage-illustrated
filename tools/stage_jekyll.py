@@ -436,7 +436,7 @@ def check_built(output, baseurl):
     must(implementation.math == 218 and implementation.code >= 4, "Lost MathML or code fences")
     must(all(f"section-{i}" in implementation.ids for i in range(1,22)), "Missing implementation anchors")
     reason = pages[REASON_PAGE[1]]
-    must({"data-flow", "tricks", "level-gates", "fpn-detail", "hconv-detail", "hconv-location", "hconv-principle", "hconv-matrix", "register-detail", "reasoning", "semantic-output", "keys", "keywords", "weights-key"} <= set(reason.ids) and reason.math == 3
+    must({"data-flow", "tricks", "level-gates", "fpn-detail", "hconv-detail", "hconv-location", "hconv-trick", "hconv-principle", "hconv-matrix", "register-detail", "reasoning", "semantic-output", "keys", "keywords", "weights-key"} <= set(reason.ids) and reason.math == 3
          and reason.code >= 3 and all(any(link.endswith("/"+PurePosixPath(asset).name)
                  for link in reason.images) for asset in {REASON_FIGURE, REASON_ARCHITECTURE, HELMET_FLOW} | TRICK_FIGURES),
          "Missing Reasoning/SDK anchors, semantic MathML, examples or a required figure")
