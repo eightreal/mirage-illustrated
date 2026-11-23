@@ -40,7 +40,7 @@ REASON_ARCHITECTURE = "assets/reasoning-architecture.svg"
 HELMET_FLOW = "assets/mirage-model-architecture.svg"
 TRICK_FIGURES = {f"assets/tricks-{name}.svg" for name in ("encoder", "mixer", "heads", "deployment")} | {
     "assets/level-gate-example.svg", "assets/fpn-grid-example.svg", "assets/hconv-channel-example.svg",
-    "assets/hconv-principle.svg", "assets/register-two-layers.svg",
+    "assets/hconv-principle.svg", "assets/register-two-layers.svg", "assets/register-tensor-shapes.svg",
 }
 META = ("config.json", "model_files.json", "tensor_manifest.json", "tensor_summary.csv",
         "toy_memory.json", "toy_model.npz", "verify_examples.py")
@@ -456,7 +456,7 @@ def check_built(output, baseurl):
                 images.add(target)
             if u.fragment and target in pages:
                 must(unquote(u.fragment) in pages[target].ids, f"{url}: broken anchor {link}")
-    must(((SVG_OVERLAY-{BODY_VECTOR}) | {BODY_PREVIEW, BODY_CHANNEL_PREVIEW, REASON_FIGURE}) <= images and len(images) == 84,
+    must(((SVG_OVERLAY-{BODY_VECTOR}) | {BODY_PREVIEW, BODY_CHANNEL_PREVIEW, REASON_FIGURE}) <= images and len(images) == 85,
          "Missing figures or SVG overlays")
     print(f"Built Jekyll site check passed: {len(pages)} pages, {len(images)} figures, prefix {baseurl or '/'}")
 
