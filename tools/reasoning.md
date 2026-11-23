@@ -1,4 +1,4 @@
-先看[模型如何生成 Reasoning](#reasoning)，或直接跳到[SDK Describe 的 key](#keys)及 [keywords 的传递方式](#keywords)。
+先看[模型如何生成 Reasoning](#reasoning)、[哪些字段是语义输出](#semantic-output)，或直接跳到[SDK Describe 的 key](#keys)及 [keywords 的传递方式](#keywords)。
 
 <a id="reasoning"></a>
 
@@ -7,6 +7,35 @@
 **Mirage 的 `reasoning` 是同一个 8 层语义解码器根据视觉条件生成的短文本。** 它和场景描述、物体名称、属性及关系共用解码器。检测框、掩码和 OCR 另有计算分支，运行时最后才组合 JSON。没有证据表明这里另接了一个推理网络，或返回了可验证的内部计算日志。
 
 ![Reasoning 模型结构：视觉记忆到语义解码，空间与 OCR 分支旁路](../assets/reasoning-architecture.svg)
+
+<a id="semantic-output"></a>
+
+### 图中深橙色：哪些是语义输出？
+
+**语义输出是解码器生成的场景、物体名称和属性、关系、事件及 `reasoning` 等内容。** 框、检测分数、掩码和 OCR 字符串来自别的分支。运行时会把两个来源的字段写进同一个 JSON；不能仅看字段在 `objects` 里面，就把整个对象当成解码器输出。
+
+| 返回字段示例 | 来源 |
+|---|---|
+| `scene.setting`、`objects[].name`、`objects[].description`、`objects[].position`、`relations[].predicate`、`events`、`reasoning` | **语义输出**：模型对场景、实体、属性、关系／事件的描述和短解释。 |
+| `objects[].bbox`、`objects[].score`；若请求返回则也有 `objects[].mask` | **非语义解码输出**：框和分数来自检测，掩码来自实例分割，运行时按区域引用挂回对象。检测分数不是名字正确的概率。 |
+| `text[].string`、`text[].bbox`、`text[].score` | **非语义解码输出**：字符串由 OCR reader 读取；框和分数来自文字检测。OCR 字符串虽然也是文本，但不是语义解码器生成的。 |
+
+`id` 和关系里的实体引用用于运行时关联记录，不是检测框索引，也不能据此判断语义解码器是否直接生成了这个整数。
+
+下面同一条对象记录里，`name` 和 `description` 是语义，`bbox` 和 `score` 不是。示例是自编截取，非真实运行记录或完整返回结构。
+
+```json
+{
+  "objects": [{
+    "name": "helmet",
+    "description": {"color": "yellow"},
+    "bbox": [120, 200, 360, 510],
+    "score": 0.72
+  }],
+  "text": [{"string": "A13"}],
+  "reasoning": "A yellow helmet is visible."
+}
+```
 
 ### 1. 从 E、D、B 造视觉记忆 M
 
