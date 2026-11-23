@@ -37,7 +37,7 @@ PAGES = [
 REASON_PAGE = ("docs/06-reasoning.md", "chapters/06-reasoning.html", "reasoning", "06 Describe 参数与 Reasoning")
 REASON_FIGURE = "assets/reasoning-model.svg"
 REASON_ARCHITECTURE = "assets/reasoning-architecture.svg"
-HELMET_FLOW = "assets/helmet-data-flow.svg"
+HELMET_FLOW = "assets/mirage-model-architecture.svg"
 META = ("config.json", "model_files.json", "tensor_manifest.json", "tensor_summary.csv",
         "toy_memory.json", "toy_model.npz", "verify_examples.py")
 CODE = ("mirage_reference.py", "decoder_ops.py", "train_toy.py", "test_reference.py",

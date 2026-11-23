@@ -1,0 +1,299 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1190" height="960" viewBox="0 0 1190 960" role="img" aria-labelledby="title desc"><title id="title">Mirage 安全帽示例：模型结构与张量接线</title><desc id="desc">同一张安全帽照片的共享主干、Body内部、Attention序列、S16与S8跳接的FPN，以及视觉语义、空间、OCR独立输出。图中的同名端口承接长连接。</desc><defs><marker id="a" viewBox="0 0 9 9" markerWidth="7" markerHeight="7" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9z" fill="#476984"/></marker><style>text{font-family:"Noto Sans CJK SC","PingFang SC","Microsoft YaHei",sans-serif;fill:#16334b}.arr{fill:none;stroke:#476984;stroke-width:2;stroke-linejoin:round;marker-end:url(#a)}.box{stroke-width:1.65}.bg{fill:#f3f7fd}.section{fill:white;stroke:#c8dbed}.module{fill:#eaf2fd;stroke:#3975a8}.tensor{fill:white;stroke:#137b69}.port{fill:#eee9fb;stroke:#72539c}.out{fill:#fff2df;stroke:#a55008}.raw{fill:#f2effb;stroke:#72539c}</style></defs>
+<rect x="0" y="0" width="1190" height="960" rx="0" class="box bg"/>
+<text x="23" y="36" font-size="30" font-weight="700">Mirage 安全帽示例　/　模型结构与张量接线</text>
+<text x="25" y="65" font-size="16">白框：张量　蓝框：网络运算　橙框：语义输出　紫色端口：同名为同一张量，省略跨区长线</text>
+<rect x="22" y="83" width="1146" height="303" rx="12" class="box section"/>
+<text x="39" y="114" font-size="22" font-weight="700">① 共享编码器　/　由图像产生粗网格 E 与 Stem 旁路</text>
+<rect x="40" y="138" width="112" height="115" rx="8" class="box tensor"/>
+<path d="M51 208h10c4-29 18-45 34-45s31 17 36 45h10v10H51z" fill="#ffcf47" stroke="#a76a11" stroke-width="2"/><rect x="89" y="190" width="25" height="13" rx="2" fill="#fff"/>
+<text x="101" y="200" font-size="9" font-weight="700" text-anchor="middle">A13</text>
+<text x="96" y="242" font-size="15" font-weight="700" text-anchor="middle">512² × 3</text>
+<path d="M155 196H174" class="arr"/>
+<rect x="179" y="135" width="233" height="156" rx="8" class="box module"/>
+<text x="195" y="161" font-size="19" font-weight="700">卷积 Stem ×5</text>
+<rect x="196" y="186" width="6" height="6" rx="1" fill="#137b69"/>
+<rect x="203" y="186" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="210" y="186" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="196" y="193" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="203" y="193" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="210" y="193" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="196" y="200" width="6" height="6" rx="1" fill="#137b69"/>
+<rect x="203" y="200" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="210" y="200" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="196" y="207" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="203" y="207" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="210" y="207" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="196" y="214" width="6" height="6" rx="1" fill="#137b69"/>
+<rect x="203" y="214" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="210" y="214" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="196" y="221" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="203" y="221" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="210" y="221" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<text x="206" y="251" font-size="14" font-weight="700" text-anchor="middle">256</text>
+<rect x="238" y="186" width="6" height="6" rx="1" fill="#137b69"/>
+<rect x="245" y="186" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="252" y="186" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="238" y="193" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="245" y="193" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="252" y="193" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="238" y="200" width="6" height="6" rx="1" fill="#137b69"/>
+<rect x="245" y="200" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="252" y="200" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="238" y="207" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="245" y="207" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="252" y="207" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="238" y="214" width="6" height="6" rx="1" fill="#137b69"/>
+<rect x="245" y="214" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="252" y="214" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<text x="248" y="251" font-size="14" font-weight="700" text-anchor="middle">128</text>
+<rect x="280" y="186" width="6" height="6" rx="1" fill="#137b69"/>
+<rect x="287" y="186" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="294" y="186" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="280" y="193" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="287" y="193" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="294" y="193" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="280" y="200" width="6" height="6" rx="1" fill="#137b69"/>
+<rect x="287" y="200" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="294" y="200" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="280" y="207" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="287" y="207" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="294" y="207" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<text x="290" y="251" font-size="14" font-weight="700" text-anchor="middle">64</text>
+<rect x="322" y="186" width="6" height="6" rx="1" fill="#137b69"/>
+<rect x="329" y="186" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="336" y="186" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="322" y="193" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="329" y="193" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="336" y="193" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="322" y="200" width="6" height="6" rx="1" fill="#137b69"/>
+<rect x="329" y="200" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="336" y="200" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<text x="332" y="251" font-size="14" font-weight="700" text-anchor="middle">32</text>
+<rect x="364" y="186" width="6" height="6" rx="1" fill="#137b69"/>
+<rect x="371" y="186" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="378" y="186" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="364" y="193" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="371" y="193" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<rect x="378" y="193" width="6" height="6" rx="1" fill="#c5e5dd"/>
+<text x="374" y="251" font-size="14" font-weight="700" text-anchor="middle">16</text>
+<text x="195" y="274" font-size="12">通道：32 → 64 → 128 → 256 → 512</text>
+<rect x="179" y="316" width="71" height="31" rx="8" class="box port"/>
+<text x="214.5" y="337.5" font-size="18" font-weight="700" text-anchor="middle">S4</text>
+<rect x="257" y="316" width="71" height="31" rx="8" class="box port"/>
+<text x="292.5" y="337.5" font-size="18" font-weight="700" text-anchor="middle">S8</text>
+<rect x="335" y="316" width="77" height="31" rx="8" class="box port"/>
+<text x="373.5" y="337.5" font-size="18" font-weight="700" text-anchor="middle">S16</text>
+<path d="M214 293V310" class="arr"/>
+<path d="M292 293V310" class="arr"/>
+<path d="M374 293V310" class="arr"/>
+<path d="M416 199H438" class="arr"/>
+<text x="425" y="179" font-size="13" font-weight="700" text-anchor="middle">F5</text>
+<rect x="444" y="135" width="236" height="156" rx="8" class="box module"/>
+<text x="456" y="159" font-size="17" font-weight="700">Body ×16 · 单块剖面</text>
+<rect x="457" y="173" width="209" height="36" rx="8" class="box tensor"/>
+<text x="561.5" y="197.0" font-size="18" font-weight="700" text-anchor="middle">X：16² × 512</text>
+<rect x="457" y="220" width="86" height="31" rx="8" class="box module"/>
+<text x="500.0" y="241.5" font-size="18" font-weight="700" text-anchor="middle">空间门控</text>
+<rect x="564" y="220" width="102" height="31" rx="8" class="box module"/>
+<text x="615.0" y="241.5" font-size="18" font-weight="700" text-anchor="middle">通道混合</text>
+<path d="M500 211V217" class="arr"/>
+<path d="M547 235H559" class="arr"/>
+<text x="562" y="274" font-size="14" text-anchor="middle">两次残差；保持原形状</text>
+<path d="M684 198H706" class="arr"/>
+<rect x="712" y="135" width="296" height="156" rx="8" class="box module"/>
+<text x="724" y="160" font-size="17" font-weight="700">Attention ×12　＋　按层融合</text>
+<rect x="731" y="178" width="8" height="8" rx="1" fill="#137b69"/>
+<rect x="740" y="178" width="8" height="8" rx="1" fill="#c5e5dd"/>
+<rect x="749" y="178" width="8" height="8" rx="1" fill="#c5e5dd"/>
+<rect x="758" y="178" width="8" height="8" rx="1" fill="#c5e5dd"/>
+<rect x="767" y="178" width="8" height="8" rx="1" fill="#c5e5dd"/>
+<rect x="776" y="178" width="8" height="8" rx="1" fill="#c5e5dd"/>
+<rect x="731" y="187" width="8" height="8" rx="1" fill="#c5e5dd"/>
+<rect x="740" y="187" width="8" height="8" rx="1" fill="#c5e5dd"/>
+<rect x="749" y="187" width="8" height="8" rx="1" fill="#c5e5dd"/>
+<rect x="758" y="187" width="8" height="8" rx="1" fill="#c5e5dd"/>
+<rect x="767" y="187" width="8" height="8" rx="1" fill="#137b69"/>
+<rect x="776" y="187" width="8" height="8" rx="1" fill="#c5e5dd"/>
+<rect x="731" y="196" width="8" height="8" rx="1" fill="#137b69"/>
+<rect x="740" y="196" width="8" height="8" rx="1" fill="#c5e5dd"/>
+<rect x="749" y="196" width="8" height="8" rx="1" fill="#c5e5dd"/>
+<rect x="758" y="196" width="8" height="8" rx="1" fill="#c5e5dd"/>
+<rect x="767" y="196" width="8" height="8" rx="1" fill="#c5e5dd"/>
+<rect x="776" y="196" width="8" height="8" rx="1" fill="#c5e5dd"/>
+<rect x="731" y="205" width="8" height="8" rx="1" fill="#c5e5dd"/>
+<rect x="740" y="205" width="8" height="8" rx="1" fill="#c5e5dd"/>
+<rect x="749" y="205" width="8" height="8" rx="1" fill="#c5e5dd"/>
+<rect x="758" y="205" width="8" height="8" rx="1" fill="#c5e5dd"/>
+<rect x="767" y="205" width="8" height="8" rx="1" fill="#137b69"/>
+<rect x="776" y="205" width="8" height="8" rx="1" fill="#c5e5dd"/>
+<rect x="731" y="214" width="8" height="8" rx="1" fill="#137b69"/>
+<rect x="740" y="214" width="8" height="8" rx="1" fill="#c5e5dd"/>
+<rect x="749" y="214" width="8" height="8" rx="1" fill="#c5e5dd"/>
+<rect x="758" y="214" width="8" height="8" rx="1" fill="#c5e5dd"/>
+<rect x="767" y="214" width="8" height="8" rx="1" fill="#c5e5dd"/>
+<rect x="776" y="214" width="8" height="8" rx="1" fill="#c5e5dd"/>
+<text x="759" y="241" font-size="13" text-anchor="middle">256 图像格</text>
+<rect x="806" y="178" width="8" height="8" rx="1" fill="#7753ae"/>
+<rect x="806" y="187" width="8" height="8" rx="1" fill="#dcd0f6"/>
+<rect x="806" y="196" width="8" height="8" rx="1" fill="#7753ae"/>
+<rect x="806" y="205" width="8" height="8" rx="1" fill="#dcd0f6"/>
+<text x="811" y="241" font-size="13" font-weight="700" text-anchor="middle">4 R</text>
+<path d="M827 197H856" class="arr"/>
+<rect x="861" y="175" width="7" height="7" rx="1" fill="#137b69"/>
+<rect x="869" y="175" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<rect x="877" y="175" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<rect x="885" y="175" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<rect x="893" y="175" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<rect x="901" y="175" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<rect x="909" y="175" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<rect x="917" y="175" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<rect x="861" y="183" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<rect x="869" y="183" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<rect x="877" y="183" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<rect x="885" y="183" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<rect x="893" y="183" width="7" height="7" rx="1" fill="#137b69"/>
+<rect x="901" y="183" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<rect x="909" y="183" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<rect x="917" y="183" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<rect x="861" y="191" width="7" height="7" rx="1" fill="#137b69"/>
+<rect x="869" y="191" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<rect x="877" y="191" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<rect x="885" y="191" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<rect x="893" y="191" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<rect x="901" y="191" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<rect x="909" y="191" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<rect x="917" y="191" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<rect x="861" y="199" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<rect x="869" y="199" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<rect x="877" y="199" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<rect x="885" y="199" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<rect x="893" y="199" width="7" height="7" rx="1" fill="#137b69"/>
+<rect x="901" y="199" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<rect x="909" y="199" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<rect x="917" y="199" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<rect x="861" y="207" width="7" height="7" rx="1" fill="#137b69"/>
+<rect x="869" y="207" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<rect x="877" y="207" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<rect x="885" y="207" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<rect x="893" y="207" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<rect x="901" y="207" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<rect x="909" y="207" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<rect x="917" y="207" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<rect x="861" y="215" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<rect x="869" y="215" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<rect x="877" y="215" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<rect x="885" y="215" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<rect x="893" y="215" width="7" height="7" rx="1" fill="#137b69"/>
+<rect x="901" y="215" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<rect x="909" y="215" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<rect x="917" y="215" width="7" height="7" rx="1" fill="#c5e5dd"/>
+<text x="892" y="241" font-size="13" font-weight="700" text-anchor="middle">260 × 512</text>
+<text x="859" y="272" font-size="13" text-anchor="middle">移除 4 个可学习 R 的输出，只保留图像格</text>
+<path d="M1013 198H1033" class="arr"/>
+<rect x="1038" y="135" width="113" height="156" rx="8" class="box tensor"/>
+<text x="1094" y="161" font-size="18" font-weight="700" text-anchor="middle">粗图 E</text>
+<rect x="1065" y="178" width="9" height="9" rx="1" fill="#137b69"/>
+<rect x="1075" y="178" width="9" height="9" rx="1" fill="#c5e5dd"/>
+<rect x="1085" y="178" width="9" height="9" rx="1" fill="#c5e5dd"/>
+<rect x="1095" y="178" width="9" height="9" rx="1" fill="#c5e5dd"/>
+<rect x="1105" y="178" width="9" height="9" rx="1" fill="#c5e5dd"/>
+<rect x="1115" y="178" width="9" height="9" rx="1" fill="#c5e5dd"/>
+<rect x="1065" y="188" width="9" height="9" rx="1" fill="#c5e5dd"/>
+<rect x="1075" y="188" width="9" height="9" rx="1" fill="#c5e5dd"/>
+<rect x="1085" y="188" width="9" height="9" rx="1" fill="#c5e5dd"/>
+<rect x="1095" y="188" width="9" height="9" rx="1" fill="#c5e5dd"/>
+<rect x="1105" y="188" width="9" height="9" rx="1" fill="#137b69"/>
+<rect x="1115" y="188" width="9" height="9" rx="1" fill="#c5e5dd"/>
+<rect x="1065" y="198" width="9" height="9" rx="1" fill="#137b69"/>
+<rect x="1075" y="198" width="9" height="9" rx="1" fill="#c5e5dd"/>
+<rect x="1085" y="198" width="9" height="9" rx="1" fill="#c5e5dd"/>
+<rect x="1095" y="198" width="9" height="9" rx="1" fill="#c5e5dd"/>
+<rect x="1105" y="198" width="9" height="9" rx="1" fill="#c5e5dd"/>
+<rect x="1115" y="198" width="9" height="9" rx="1" fill="#c5e5dd"/>
+<rect x="1065" y="208" width="9" height="9" rx="1" fill="#c5e5dd"/>
+<rect x="1075" y="208" width="9" height="9" rx="1" fill="#c5e5dd"/>
+<rect x="1085" y="208" width="9" height="9" rx="1" fill="#c5e5dd"/>
+<rect x="1095" y="208" width="9" height="9" rx="1" fill="#c5e5dd"/>
+<rect x="1105" y="208" width="9" height="9" rx="1" fill="#137b69"/>
+<rect x="1115" y="208" width="9" height="9" rx="1" fill="#c5e5dd"/>
+<rect x="1065" y="218" width="9" height="9" rx="1" fill="#137b69"/>
+<rect x="1075" y="218" width="9" height="9" rx="1" fill="#c5e5dd"/>
+<rect x="1085" y="218" width="9" height="9" rx="1" fill="#c5e5dd"/>
+<rect x="1095" y="218" width="9" height="9" rx="1" fill="#c5e5dd"/>
+<rect x="1105" y="218" width="9" height="9" rx="1" fill="#c5e5dd"/>
+<rect x="1115" y="218" width="9" height="9" rx="1" fill="#c5e5dd"/>
+<text x="1094" y="253" font-size="14" font-weight="700" text-anchor="middle">16² × 512</text>
+<rect x="1058" y="313" width="72" height="33" rx="8" class="box port"/>
+<text x="1094.0" y="335.5" font-size="18" font-weight="700" text-anchor="middle">E</text>
+<path d="M1094 294V307" class="arr"/>
+<text x="39" y="371" font-size="15">S4/S8/S16 来自不同 Stem 层；F5 进入主干；E 不是 Body 的直接输出。</text>
+<rect x="22" y="399" width="1146" height="193" rx="12" class="box section"/>
+<text x="39" y="430" font-size="22" font-weight="700">② FPN　/　粗图与 Stem 旁路补足细节</text>
+<rect x="43" y="463" width="68" height="37" rx="8" class="box port"/>
+<text x="77.0" y="487.5" font-size="18" font-weight="700" text-anchor="middle">E</text>
+<rect x="162" y="443" width="70" height="37" rx="8" class="box port"/>
+<text x="197.0" y="467.5" font-size="18" font-weight="700" text-anchor="middle">S16</text>
+<rect x="575" y="443" width="70" height="37" rx="8" class="box port"/>
+<text x="610.0" y="467.5" font-size="18" font-weight="700" text-anchor="middle">S8</text>
+<rect x="264" y="476" width="256" height="69" rx="8" class="box module"/>
+<text x="392.0" y="502" font-size="18" font-weight="700" text-anchor="middle">第 1 级：投影、上采样＋S16</text>
+<text x="392.0" y="527" font-size="15" text-anchor="middle">32² × 128 · 局部残差块 ×1</text>
+<rect x="680" y="476" width="275" height="69" rx="8" class="box module"/>
+<text x="817.5" y="502" font-size="18" font-weight="700" text-anchor="middle">第 2 级：上采样＋投影 S8</text>
+<text x="817.5" y="527" font-size="15" text-anchor="middle">64² × 128 · 残差块 ×3 · Norm / SiLU</text>
+<rect x="1006" y="476" width="140" height="69" rx="8" class="box tensor"/>
+<text x="1076.0" y="502" font-size="18" font-weight="700" text-anchor="middle">细图 D</text>
+<text x="1076.0" y="527" font-size="15" text-anchor="middle">64² × 128</text>
+<path d="M115 482H142V536H258" class="arr"/>
+<path d="M197 486V502H258" class="arr"/>
+<path d="M525 510H674" class="arr"/>
+<path d="M610 484V495H674" class="arr"/>
+<path d="M960 510H1000" class="arr"/>
+<rect x="1036" y="550" width="80" height="30" rx="8" class="box port"/>
+<text x="1076.0" y="571.0" font-size="18" font-weight="700" text-anchor="middle">D</text>
+<path d="M1076 546V548" class="arr"/>
+<text x="41" y="568" font-size="15">两次逐元素相加前，先让高、宽、通道匹配；不是拼接。</text>
+<rect x="22" y="605" width="1146" height="333" rx="12" class="box section"/>
+<text x="39" y="636" font-size="22" font-weight="700">③ 三个读出分支　/　同图计算并在运行时汇合</text>
+<rect x="42" y="652" width="75" height="33" rx="8" class="box port"/>
+<text x="79.5" y="674.5" font-size="18" font-weight="700" text-anchor="middle">D</text>
+<rect x="154" y="641" width="290" height="61" rx="8" class="box module"/>
+<text x="299.0" y="667" font-size="18" font-weight="700" text-anchor="middle">检测头：物体峰 / 文字峰</text>
+<text x="299.0" y="692" font-size="15" text-anchor="middle">候选 B：帽子框 ＋ 贴纸框</text>
+<rect x="493" y="654" width="70" height="33" rx="8" class="box port"/>
+<text x="528.0" y="676.5" font-size="18" font-weight="700" text-anchor="middle">B</text>
+<path d="M120 669H149" class="arr"/>
+<path d="M448 669H488" class="arr"/>
+<rect x="43" y="735" width="332" height="65" rx="8" class="box module"/>
+<text x="209.0" y="761" font-size="18" font-weight="700" text-anchor="middle">语义：区域槽 + E 网格 → M</text>
+<text x="209.0" y="786" font-size="15" text-anchor="middle">8 层语义解码器读取 M</text>
+<rect x="428" y="735" width="332" height="65" rx="8" class="box module"/>
+<text x="594.0" y="761" font-size="18" font-weight="700" text-anchor="middle">空间：检测与实例分割</text>
+<text x="594.0" y="786" font-size="15" text-anchor="middle">B 给框/分数；D、S4、B 给掩码</text>
+<rect x="813" y="735" width="332" height="65" rx="8" class="box module"/>
+<text x="979.0" y="761" font-size="18" font-weight="700" text-anchor="middle">OCR：原图 + B 中的文字框</text>
+<text x="979.0" y="786" font-size="15" text-anchor="middle">从原照片裁下贴纸给 reader</text>
+<path d="M529 690V712H209V728" class="arr"/>
+<path d="M529 712H594V728" class="arr"/>
+<path d="M594 712H980V728" class="arr"/>
+<text x="65" y="728" font-size="13" font-weight="700">E / D / B</text>
+<text x="449" y="728" font-size="13" font-weight="700">D / S4 / B</text>
+<text x="831" y="728" font-size="13" font-weight="700">原图 / B</text>
+<path d="M209 803V819" class="arr"/>
+<path d="M594 803V819" class="arr"/>
+<path d="M980 803V819" class="arr"/>
+<rect x="43" y="824" width="332" height="62" rx="8" class="box out"/>
+<text x="209.0" y="850" font-size="18" font-weight="700" text-anchor="middle">语义输出</text>
+<text x="209.0" y="875" font-size="15" text-anchor="middle">helmet · yellow · reasoning</text>
+<rect x="428" y="824" width="332" height="62" rx="8" class="box raw"/>
+<text x="594.0" y="850" font-size="18" font-weight="700" text-anchor="middle">空间输出</text>
+<text x="594.0" y="875" font-size="15" text-anchor="middle">bbox · score · mask</text>
+<rect x="813" y="824" width="332" height="62" rx="8" class="box raw"/>
+<text x="979.0" y="850" font-size="18" font-weight="700" text-anchor="middle">OCR 字符串</text>
+<text x="979.0" y="875" font-size="15" text-anchor="middle">text[].string → A13；不回流解码器</text>
+<path d="M209 888V904" class="arr"/>
+<path d="M594 888V904" class="arr"/>
+<path d="M980 888V904" class="arr"/>
+<rect x="43" y="908" width="1102" height="21" rx="8" class="box module"/>
+<text x="594.0" y="924.5" font-size="18" font-weight="700" text-anchor="middle">运行时组合：语义、空间与 OCR 汇入同一份 JSON；OCR 单列 text[]</text>
+</svg>
