@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="1195" viewBox="0 0 720 1195" role="img" aria-labelledby="title desc"><title id="title">一张安全帽照片走完整个 Mirage 模型</title><desc id="desc">照片输入经过 Stem、Body、Attention 和按层融合得到 E。FPN 结合 S16/S8 得到 D，检测给出 B。视觉语义、空间、文字三个支路最后由运行时合成 JSON。</desc><defs><marker id="a" viewBox="0 0 8 8" markerWidth="7" markerHeight="7" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="#56748e"/></marker><style>text{font-family:"Noto Sans CJK SC","PingFang SC","Microsoft YaHei",sans-serif;fill:#142e44}.m{fill:#eaf2fd;stroke:#28639b}.d{fill:white;stroke:#117466}.sem{fill:#ffefd8;stroke:#a65012}.o{fill:#f2effb;stroke:#6a52a4}.wire{fill:none;stroke:#56748e;stroke-width:2.4;stroke-linejoin:round;marker-end:url(#a)}</style></defs><rect x="1" y="1" width="718" height="1193" rx="20" fill="#f4f8fc" stroke="#caddec"/>
+<text x="27" y="37" font-size="15" font-weight="700">MIRAGE / SAME-IMAGE DATA FLOW</text>
+<text x="26" y="78" font-size="31" font-weight="700">一张安全帽照片，走完整个模型</text>
+<text x="26" y="109" font-size="18">黄色安全帽与贴纸 A13 · 教学示意，不是权重实跑</text>
+<rect x="178" y="137" width="365" height="82" rx="10" class="d" stroke-width="1.75"/>
+<text x="360.5" y="163" font-size="20" font-weight="700" text-anchor="middle">原照片 → 512² × 3 画布</text>
+<text x="360.5" y="186" font-size="17" text-anchor="middle">同一张照片贯穿所有支路</text>
+<path d="M46 190h16c3-28 29-49 46-49s44 21 47 49h13v10H46z" fill="#ffce43" stroke="#a2630b" stroke-width="2"/><rect x="98" y="168" width="30" height="17" rx="2" fill="#fff"/>
+<text x="113" y="180" font-size="11" font-weight="700" text-anchor="middle">A13</text>
+<path d="M360 222V242" class="wire"/>
+<rect x="127" y="248" width="467" height="62" rx="10" class="m" stroke-width="1.75"/>
+<text x="360.5" y="274" font-size="20" font-weight="700" text-anchor="middle">Stem ×5：保留细分辨率旁路</text>
+<text x="360.5" y="297" font-size="17" text-anchor="middle">F5：16² × 512；S4 / S8 / S16 供后续分支</text>
+<path d="M360 313V332" class="wire"/>
+<rect x="127" y="338" width="467" height="82" rx="10" class="m" stroke-width="1.75"/>
+<text x="360.5" y="364" font-size="20" font-weight="700" text-anchor="middle">Body ×16 → Attention → 按层融合</text>
+<text x="360.5" y="387" font-size="17" text-anchor="middle">单个 Body：空间混合 → 通道混合</text>
+<text x="360.5" y="410" font-size="17" text-anchor="middle">每个 Body 保持 16² × 512</text>
+<path d="M360 423V437" class="wire"/>
+<rect x="186" y="443" width="348" height="58" rx="10" class="d" stroke-width="1.75"/>
+<text x="360.0" y="469" font-size="20" font-weight="700" text-anchor="middle">粗图 E</text>
+<text x="360.0" y="492" font-size="17" text-anchor="middle">16² × 512；整图上下文</text>
+<path d="M360 504V522" class="wire"/>
+<rect x="127" y="528" width="467" height="64" rx="10" class="m" stroke-width="1.75"/>
+<text x="360.5" y="554" font-size="20" font-weight="700" text-anchor="middle">FPN：上采样后融合 E、S16、S8</text>
+<text x="360.5" y="577" font-size="17" text-anchor="middle">输出细图 D：64² × 128</text>
+<path d="M360 595V616" class="wire"/>
+<rect x="127" y="622" width="467" height="62" rx="10" class="m" stroke-width="1.75"/>
+<text x="360.5" y="648" font-size="20" font-weight="700" text-anchor="middle">检测头读取 D</text>
+<text x="360.5" y="671" font-size="17" text-anchor="middle">输出 B：帽子框候选 + 贴纸框候选</text>
+<path d="M360 687V709H133V728" class="wire"/>
+<path d="M360 710V728" class="wire"/>
+<path d="M360 709H587V728" class="wire"/>
+<rect x="24" y="734" width="218" height="96" rx="10" class="m" stroke-width="1.75"/>
+<text x="133.0" y="760" font-size="20" font-weight="700" text-anchor="middle">视觉记忆 M</text>
+<text x="133.0" y="783" font-size="17" text-anchor="middle">E、D、B → 区域槽</text>
+<text x="133.0" y="806" font-size="17" text-anchor="middle">E 网格＋槽 → 8 层解码</text>
+<rect x="251" y="734" width="218" height="96" rx="10" class="m" stroke-width="1.75"/>
+<text x="360.0" y="760" font-size="20" font-weight="700" text-anchor="middle">空间输出</text>
+<text x="360.0" y="783" font-size="17" text-anchor="middle">B 给框／分数</text>
+<text x="360.0" y="806" font-size="17" text-anchor="middle">D、S4、B → 掩码</text>
+<rect x="478" y="734" width="218" height="96" rx="10" class="m" stroke-width="1.75"/>
+<text x="587.0" y="760" font-size="20" font-weight="700" text-anchor="middle">独立 OCR</text>
+<text x="587.0" y="783" font-size="17" text-anchor="middle">原图 ＋ B 文字框</text>
+<text x="587.0" y="806" font-size="17" text-anchor="middle">裁下贴纸给 reader</text>
+<path d="M133 833V853" class="wire"/>
+<path d="M360 833V853" class="wire"/>
+<path d="M587 833V853" class="wire"/>
+<rect x="24" y="859" width="218" height="96" rx="10" class="sem" stroke-width="1.75"/>
+<text x="133.0" y="885" font-size="20" font-weight="700" text-anchor="middle">语义输出</text>
+<text x="133.0" y="908" font-size="17" text-anchor="middle">helmet · yellow</text>
+<text x="133.0" y="931" font-size="17" text-anchor="middle">及短 reasoning</text>
+<rect x="251" y="859" width="218" height="96" rx="10" class="o" stroke-width="1.75"/>
+<text x="360.0" y="885" font-size="20" font-weight="700" text-anchor="middle">非语义输出</text>
+<text x="360.0" y="908" font-size="17" text-anchor="middle">bbox · score · mask</text>
+<text x="360.0" y="931" font-size="17" text-anchor="middle">坐标不由解码器生成</text>
+<rect x="478" y="859" width="218" height="96" rx="10" class="o" stroke-width="1.75"/>
+<text x="587.0" y="885" font-size="20" font-weight="700" text-anchor="middle">非语义输出</text>
+<text x="587.0" y="908" font-size="17" text-anchor="middle">text[].string = A13</text>
+<text x="587.0" y="931" font-size="17" text-anchor="middle">不回流语义解码器</text>
+<path d="M133 958V990" class="wire"/>
+<path d="M360 958V990" class="wire"/>
+<path d="M587 958V990" class="wire"/>
+<rect x="24" y="996" width="672" height="117" rx="10" class="m" stroke-width="1.75"/>
+<text x="360.0" y="1022" font-size="20" font-weight="700" text-anchor="middle">运行时组装 → JSON</text>
+<text x="360.0" y="1045" font-size="17" text-anchor="middle">对象名称与颜色是语义；框／分数与掩码来自空间分支；</text>
+<text x="360.0" y="1068" font-size="17" text-anchor="middle">A13 来自 OCR。这些字段可以出现在同一份记录。</text>
+<text x="26" y="1152" font-size="17">白框：输入/特征张量　蓝框：网络或运算</text>
+<text x="26" y="1176" font-size="17">橙框：语义生成分支　紫框：独立空间与文字输出</text>
+</svg>
