@@ -54,6 +54,24 @@ Y 是全部 N 个内部语义 token，`y_<t` 是第 t 步之前的 token。公�
 
 **这里讨论的是 SDK 参数。** Mirage Python SDK 的 `describe` 没有显式的单数 `key` 参数；它有一个专门的 **`keywords`** 参数。另外，`options` 是请求字典，里面也有键，例如 `sections`；返回结果同样是字典，`reasoning` 就是一个返回字段名。这三处不能互换。
 
+
+<a id="weights-key"></a>
+
+### 源码里的 `key`：用权重路径复用 SDK 对象
+
+如果你问的是模块级快捷函数 `cactus.describe(image, *, weights=None, **options)` 里的字面变量 **`key`**，它是 Python 字典 `_shared` 的内部索引：
+
+```python
+key = os.fspath(weights) if weights is not None else None
+if key not in _shared:
+    _shared[key] = Mirage(weights=weights)
+return _shared[key].describe(image, **options)
+```
+
+同一个权重路径值再次调用，复用同一个 Python `Mirage` 包装对象。比如两次都传 `weights="mirage.cact"`，就查同一条 `_shared["mirage.cact"]`；`weights=None` 统一用字典键 `None`，由构造函数取得默认权重。这里的 `os.fspath` 只取路径表示，不做绝对路径转换、文件身份或内容比较；传入两个字符串 `"mirage.cact"` 和 `"./mirage.cact"` 会得到两个不同的键。
+
+`_shared[key]` 缓存的是**包装对象**；`_loaded` 是另一处状态，记录 Python 绑定器当前认可的已加载权重路径，用于决定是否再调用 `cactus_load`。如果同一路径已经被绑定器认定为已加载，**原地覆盖该权重文件并不保证重新加载**；要切换版本，使用不同的权重路径或重新启动进程。调用实例方法 `vision.describe(...)` 不经过这个模块级 `_shared[key]` 查找。`key` 不是要传给 SDK 的参数，不是 API 密钥、token，也不是 `keywords`。
+
 ![Mirage SDK 的 keywords、options 键和返回字段如何传递](../assets/reasoning-model.svg)
 
 本项目所附 SDK 快照的签名：
