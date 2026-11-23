@@ -78,7 +78,7 @@ math[display="block"]{display:block;margin:1em 0;max-width:100%;overflow-x:auto}
 <header class="bar"><div class="bar-inner">
 <a class="logo" href="{{ '/' | relative_url }}" aria-label="Mirage 图解首页"><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="3" y="3" width="34" height="34" rx="9" fill="currentColor"/><path d="M10 28V13l10 9 10-9v15M10 28h20" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Mirage 图解</span></a>
 <nav class="nav" aria-label="章节导航">
-{% assign tabs = '/|总览;/chapters/01-architecture.html|结构;/chapters/02-implementation.html|实现;/chapters/03-training.html|训练;/chapters/04-api.html|API;/chapters/05-model-files.html|模型文件;/code/README.html|代码;/upstream/README.html|SDK;/chapters/06-reasoning.html|Reasoning' | split: ';' %}
+{% assign tabs = '/|总览;/chapters/01-architecture.html|结构;/chapters/02-implementation.html|实现;/chapters/03-training.html|训练;/chapters/04-api.html|API;/chapters/05-model-files.html|模型文件;/code/README.html|代码;/upstream/README.html|SDK;/chapters/06-reasoning.html|Describe' | split: ';' %}
 {% for item in tabs %}{% assign pair = item | split: '|' %}<a href="{{ pair[0] | relative_url }}"{% if page.url == pair[0] or page.url == '/index.html' and pair[0] == '/' %} aria-current="page"{% endif %}>{{ pair[1] }}</a>{% endfor %}
 </nav></div></header>
 <div class="site">

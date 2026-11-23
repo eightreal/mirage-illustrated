@@ -34,7 +34,7 @@ PAGES = [
     ("code/README.md", "code/README.html", "code", "参考代码"),
     ("upstream/README.md", "upstream/README.html", "upstream", "官方 SDK"),
 ]
-REASON_PAGE = ("docs/06-reasoning.md", "chapters/06-reasoning.html", "reasoning", "06 Reasoning 与 Keys")
+REASON_PAGE = ("docs/06-reasoning.md", "chapters/06-reasoning.html", "reasoning", "06 Describe 参数与 Reasoning")
 REASON_FIGURE = "assets/reasoning-model.svg"
 META = ("config.json", "model_files.json", "tensor_manifest.json", "tensor_summary.csv",
         "toy_memory.json", "toy_model.npz", "verify_examples.py")
@@ -293,7 +293,7 @@ def stage(zip_path, output, layout_path, bundled=False, baseurl=""):
             if key in {"architecture", "implementation", "api"}:
                 raw = (
                     "> 专题图解：[Reasoning 如何生成](06-reasoning.md#reasoning)"
-                    " · [视觉 Keys 是什么](06-reasoning.md#keys)\n\n" + raw
+                    " · [Describe 的 key 是什么](06-reasoning.md#keys)\n\n" + raw
                 )
             converted = update_markdown_links(raw, source, public, found)
             converted = add_downloads(converted, key, bundled, public, found)
@@ -314,7 +314,7 @@ def stage(zip_path, output, layout_path, bundled=False, baseurl=""):
         must("{%" not in reason_text and "{{" not in reason_text, "Reason page has Liquid syntax")
         reason_source, reason_public, reason_key, _ = REASON_PAGE
         reason_text = update_markdown_links(reason_text, reason_source, reason_public, found)
-        reason_title = "Mirage 的 Reasoning 与视觉 Keys"
+        reason_title = "Mirage SDK：Describe 的 key 与 Reasoning"
         reason_body = ("---\nlayout: default\n"
                        f"title: {json.dumps(reason_title, ensure_ascii=False)}\n"
                        f"permalink: /{reason_public}\nequation_key: {reason_key}\n---\n"
@@ -429,9 +429,9 @@ def check_built(output, baseurl):
     must(implementation.math == 218 and implementation.code >= 4, "Lost MathML or code fences")
     must(all(f"section-{i}" in implementation.ids for i in range(1,22)), "Missing implementation anchors")
     reason = pages[REASON_PAGE[1]]
-    must({"reasoning", "keys", "reasoning-ocr"} <= set(reason.ids) and reason.math == 2
-         and reason.code == 1 and any(link.endswith("/reasoning-model.svg") for link in reason.images),
-         "Missing reasoning anchors, MathML, Python example or figure")
+    must({"reasoning", "keys", "keywords"} <= set(reason.ids) and reason.math == 1
+         and reason.code >= 3 and any(link.endswith("/reasoning-model.svg") for link in reason.images),
+         "Missing describe anchors, semantic MathML, code example or figure")
     for _, url, key, _ in PAGES:
         expected = ("#reasoning", "#keys") if key in {"architecture", "implementation", "api"} else ("",)
         must(all(any(link.endswith("/06-reasoning.html" + anchor) for link in pages[url].hrefs)
